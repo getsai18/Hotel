@@ -73,8 +73,16 @@ public class MenuPrincipalController {
         if (!"GERENTE".equals(usuarioActual.getRol())) return;
         cargarVista("/resources/fxml/habitaciones.fxml");
     }
-    @FXML private void handleCheckOut() { /* Lógica en Fase 6 */ }
-    @FXML private void handleReportes() { /* Lógica en Fase 6 */ }
+    @FXML private void handleCheckOut() {
+        if (!"GERENTE".equals(usuarioActual.getRol())) return;
+        cargarVista("/resources/fxml/checkOut.fxml");
+    }
+    @FXML private void handleReportes() {
+        // Reportes es accesible para ambos roles si es necesario,
+        // pero solo el Gerente/Admin puede verlo en el menú lateral.
+        if (!"GERENTE".equals(usuarioActual.getRol()) && !"ADMIN".equals(usuarioActual.getRol())) return;
+        cargarVista("/resources/fxml/reportes.fxml");
+    }
 
     // --- Utilidades ---
 

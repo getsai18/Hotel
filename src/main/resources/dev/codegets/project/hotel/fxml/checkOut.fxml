@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="650.0" prefWidth="800.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.CheckOutController">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
+    <Label text="💰 Módulo de Check-out y Pagos" style="-fx-font-weight: bold;">
+        <font>
+            <Font size="24.0" />
+        </font>
+    </Label>
+    <Separator />
+
+    <HBox alignment="CENTER_LEFT" spacing="10.0">
+        <Label text="Número de Habitación:" style="-fx-font-weight: bold;" />
+        <TextField fx:id="txtHabitacionNumero" promptText="Habitación ocupada" />
+        <Button fx:id="btnBuscarOcupacion" text="Buscar Ocupación" onAction="#handleBuscarOcupacion" />
+        <Button text="Gestionar Pagos y Devoluciones" onAction="#handleGestionPagos" style="-fx-background-color: #e76f51; -fx-text-fill: white;" />
+    </HBox>
+    <Separator />
+
+    <GridPane hgap="10.0" vgap="10.0">
+        <Label text="Reserva ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Label fx:id="lblReservaID" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-font-weight: bold;" />
+        <Label text="Cliente:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <Label fx:id="lblClienteInfo" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label text="Fecha de Salida Estimada:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <Label fx:id="lblFechaSalidaEstimada" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    </GridPane>
+    <Separator />
+
+    <Label text="Cálculo de Finalización" style="-fx-font-weight: bold;">
+        <font>
+            <Font size="16.0" />
+        </font>
+    </Label>
+    <Label fx:id="lblPenalizacionInfo" text="Estado de Check-out..." style="-fx-font-size: 14;" />
+
+    <HBox alignment="CENTER_LEFT" spacing="10.0">
+        <Label text="Total Pendiente (Penalizaciones/Día Extra):" style="-fx-font-weight: bold; -fx-font-size: 16;" />
+        <Label fx:id="lblTotalPendiente" text="0.00" style="-fx-font-weight: bold; -fx-font-size: 18; -fx-text-fill: red;" />
+    </HBox>
+
+    <Separator />
+    <Button fx:id="btnFinalizarCheckOut" text="FINALIZAR CHECK-OUT y CERRAR CUENTA" onAction="#handleFinalizarCheckOut" prefWidth="450.0" disable="true" style="-fx-background-color: #e9c46a; -fx-text-fill: #264653; -fx-font-weight: bold;" />
+</VBox>
