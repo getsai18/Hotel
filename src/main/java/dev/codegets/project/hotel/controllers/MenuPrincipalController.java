@@ -61,9 +61,18 @@ public class MenuPrincipalController {
 
     // --- Métodos de Navegación del GERENTE (Implementados en Fases 5 y 6) ---
 
-    @FXML private void handleReservas() { /* Lógica en Fase 5 */ }
-    @FXML private void handleCheckIn() { /* Lógica en Fase 5 */ }
-    @FXML private void handleHabitaciones() { /* Lógica en Fase 5 */ }
+    @FXML private void handleReservas() {
+        if (!"GERENTE".equals(usuarioActual.getRol())) return;
+        cargarVista("/resources/fxml/reservas.fxml");
+    }
+    @FXML private void handleCheckIn() {
+        if (!"GERENTE".equals(usuarioActual.getRol())) return;
+        cargarVista("/resources/fxml/checkIn.fxml");
+    }
+    @FXML private void handleHabitaciones() {
+        if (!"GERENTE".equals(usuarioActual.getRol())) return;
+        cargarVista("/resources/fxml/habitaciones.fxml");
+    }
     @FXML private void handleCheckOut() { /* Lógica en Fase 6 */ }
     @FXML private void handleReportes() { /* Lógica en Fase 6 */ }
 
