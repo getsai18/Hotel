@@ -7,6 +7,7 @@ import dev.codegets.project.hotel.utils.ConexionDB;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class HabitacionDao {
 
@@ -97,5 +98,72 @@ public class HabitacionDao {
             return false;
         }
     }
+
+
+
+    public Optional<Habitacion> getById(int id) {
+        String sql = "SELECT * FROM habitaciones WHERE id_habitacion = ?";
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(new Habitacion(
+                            rs.getInt("id_habitacion"),
+                            rs.getInt("numero"),
+                            rs.getString("tipo"),
+                            rs.getString("estado"),
+                            rs.getDouble("precio_base")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Actualiza el estado de una habitación (usado en Check-in/Check-out/Mantenimiento).
+     */
+    public boolean updateEstado(int idHabitacion, String nuevoEstado) {
+        String sql = "UPDATE habitaciones SET estado = ? WHERE id_habitacion = ?";
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nuevoEstado);
+            stmt.setInt(2, idHabitacion);
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Optional<Habitacion> getByNumero(int numero) {
+        String sql = "SELECT * FROM habitaciones WHERE numero = ?";
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, numero);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(new Habitacion(
+                            rs.getInt("id_habitacion"),
+                            rs.getInt("numero"),
+                            rs.getString("tipo"),
+                            rs.getString("estado"),
+                            rs.getDouble("precio_base")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
 
 }

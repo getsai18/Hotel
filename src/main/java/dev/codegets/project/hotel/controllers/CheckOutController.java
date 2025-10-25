@@ -1,4 +1,5 @@
 package dev.codegets.project.hotel.controllers;
+import dev.codegets.project.hotel.models.Configuracion;
 import dev.codegets.project.hotel.models.Habitacion;
 import dev.codegets.project.hotel.models.Pago;
 import dev.codegets.project.hotel.models.Reserva;
@@ -97,8 +98,8 @@ public class CheckOutController {
                 penalizacionTotal = precioNoche; // Día extra
                 lblPenalizacionInfo.setText(String.format("⚠️ DÍA EXTRA: Cliente excedió por %d horas. Cobro por día extra (%.2f).", horasTarde, penalizacionTotal));
             } else {
-                Optional<models.Configuracion> penalizacionConfig = configDao.getParametro("PORCENTAJE_RECARGO_CHECKIN_TARDE"); // Usamos el mismo porcentaje para simplificar
-                double porcentaje = penalizacionConfig.map(models.Configuracion::getValor).orElse(0.0);
+                Optional<Configuracion> penalizacionConfig = configDao.getParametro("PORCENTAJE_RECARGO_CHECKIN_TARDE"); // Usamos el mismo porcentaje para simplificar
+                double porcentaje = penalizacionConfig.map(Configuracion::getValor).orElse(0.0);
                 penalizacionTotal = precioNoche * porcentaje;
                 lblPenalizacionInfo.setText(String.format("⚠️ PENALIZACIÓN TARDÍA: %.2f (%.0f%% de noche).", penalizacionTotal, porcentaje * 100));
             }
@@ -183,8 +184,8 @@ public class CheckOutController {
                 double montoPagado = reserva.getMontoTotal();
 
                 // 3. Obtener el Porcentaje de Penalización por No-Show
-                Optional<models.Configuracion> noShowConfig = configDao.getParametro("PORCENTAJE_PENALIZACION_NO_SHOW");
-                double porcentajePenalizacion = noShowConfig.map(models.Configuracion::getValor).orElse(0.0);
+                Optional<Configuracion> noShowConfig = configDao.getParametro("PORCENTAJE_PENALIZACION_NO_SHOW");
+                double porcentajePenalizacion = noShowConfig.map(Configuracion::getValor).orElse(0.0);
 
                 if (porcentajePenalizacion == 0.0) {
                     Alertas.mostrarError("Error de Configuración", "El porcentaje de penalización por No-Show es 0.0. No se puede calcular.");

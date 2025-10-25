@@ -3,6 +3,7 @@ package dev.codegets.project.hotel.controllers;
 import dev.codegets.project.hotel.models.dao.PagoDao;
 import dev.codegets.project.hotel.models.dao.ReservaDao;
 import dev.codegets.project.hotel.utils.Alertas;
+import dev.codegets.project.hotel.utils.ConexionDB;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -43,7 +44,7 @@ public class ReportesController {
         double totalIngresos = 0.0;
         double totalPenalizaciones = 0.0;
 
-        try (Connection conn = utils.ConexionDB.getConnection();
+        try (Connection conn = ConexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setTimestamp(1, Timestamp.valueOf(inicio.atStartOfDay()));
@@ -89,7 +90,7 @@ public class ReportesController {
         StringBuilder reporte = new StringBuilder("--- REPORTE DE OCUPACIÓN (Reservas entre " + inicio + " y " + fin + ") ---\n\n");
         int totalReservas = 0;
 
-        try (Connection conn = utils.ConexionDB.getConnection();
+        try (Connection conn = ConexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setTimestamp(1, Timestamp.valueOf(inicio.atStartOfDay()));
