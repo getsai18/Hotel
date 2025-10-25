@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20.0" prefHeight="400.0" prefWidth="400.0"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="dev.codegets.project.hotel.controllers.LoginController" styleClass="login-container">
+
+    <padding>
+        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+    </padding>
+
+    <Label text="Gestión Hotelera" styleClass="titulo">
+        <font>
+            <Font name="System Bold" size="24.0" />
+        </font>
+    </Label>
+    <Label text="Inicia Sesión" styleClass="subtitulo" />
+
+    <VBox spacing="10.0">
+        <Label text="Usuario:" />
+        <TextField fx:id="txtUsername" promptText="Ingresa tu usuario" />
+    </VBox>
+
+    <VBox spacing="10.0">
+        <Label text="Contraseña:" />
+        <PasswordField fx:id="txtPassword" promptText="Ingresa tu contraseña" />
+    </VBox>
+
+    <Button fx:id="btnLogin" text="ACCEDER" onAction="#handleLogin" prefWidth="200.0" styleClass="btn-acceder" />
+
+    <style>
+        .login-container {
+        -fx-background-color: #f4f4f4;
+        -fx-border-color: #cccccc;
+        -fx-border-width: 1px;
+        -fx-border-radius: 5px;
+        -fx-padding: 30px;
+        }
+        .titulo {
+        -fx-text-fill: #0077b6; /* Azul hotelero */
+        }
+        .btn-acceder {
+        -fx-background-color: #0077b6;
+        -fx-text-fill: white;
+        -fx-font-weight: bold;
+        }
+        .btn-acceder:hover {
+        -fx-background-color: #005f93;
+        }
+    </style>
+</VBox>
