@@ -58,7 +58,7 @@ public class LoginController {
      */
     private void loadMenuPrincipal(Usuario usuario) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/menuPrincipal.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dev/codegets/project/hotel/fxml/menuPrincipal.fxml"));
             Parent root = loader.load();
 
             // Pasar el usuario al controlador del menú principal

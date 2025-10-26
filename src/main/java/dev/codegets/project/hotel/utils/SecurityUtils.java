@@ -7,13 +7,17 @@ import java.security.NoSuchAlgorithmException;
 public class SecurityUtils {
     public static String hashPassword(String password) {
         try {
+
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] encodedhash = digest.digest(
                     password.getBytes(StandardCharsets.UTF_8));
+            System.out.println("si entre al try xd");
             return bytesToHex(encodedhash);
+
         } catch (NoSuchAlgorithmException e) {
+
             // Asegúrate que Alertas esté accesible o usa System.err.println si no puedes importarlo
-            // Alertas.mostrarError("Error de Seguridad", "El algoritmo de hasheo SHA-256 no está disponible.");
+            System.err.println("Error FATAL de seguridad: SHA-256 no disponible.");
             return null;
         }
     }
@@ -32,12 +36,24 @@ public class SecurityUtils {
     }
 
 
+
     public static boolean verifyPassword(String rawPassword, String hashedPassword) {
         String newHash = hashPassword(rawPassword);
 
-        // CAMBIO CLAVE 2: Comparamos el nuevo hash con el hash almacenado,
-        // convirtiendo el hash almacenado a minúsculas para asegurar que el case no falle.
-        return newHash != null && newHash.equals(hashedPassword.toLowerCase());
+        // --- LINEAS DE DEBUGGING ---
+        System.out.println("--- DEBUG: VERIFICACIÓN DE CONTRASEÑA ---");
+        System.out.println("Hash GENERADO (Length: " + newHash.length() + "): " + newHash);
+        System.out.println("Hash DB LEÍDO (Length: " + hashedPassword.length() + "): " + hashedPassword);
+
+        String cleanDBHash = hashedPassword.trim().toLowerCase();
+        System.out.println("Hash DB LIMPIO (Length: " + cleanDBHash.length() + "): " + cleanDBHash);
+        System.out.println("¿Coinciden los hashes?: " + newHash.equals(cleanDBHash));
+        System.out.println("------------------------------------------");
+        // ----------------------------
+
+        return newHash != null && newHash.equals(cleanDBHash);
     }
+
+
 
 }

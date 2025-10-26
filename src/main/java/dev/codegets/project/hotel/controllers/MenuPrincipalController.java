@@ -56,32 +56,32 @@ public class MenuPrincipalController {
             Alertas.mostrarError("Acceso Denegado", "Solo los Administradores pueden acceder a la Configuración.");
             return;
         }
-        cargarVista("/resources/fxml/configuracion.fxml");
+        cargarVista("/dev/codegets/project/hotel/fxml/configuracion.fxml");
     }
 
     // --- Métodos de Navegación del GERENTE (Implementados en Fases 5 y 6) ---
 
     @FXML private void handleReservas() {
         if (!"GERENTE".equals(usuarioActual.getRol())) return;
-        cargarVista("/resources/fxml/reservas.fxml");
+        cargarVista("/dev/codegets/project/hotel/fxml/reservas.fxml");
     }
     @FXML private void handleCheckIn() {
         if (!"GERENTE".equals(usuarioActual.getRol())) return;
-        cargarVista("/resources/fxml/checkIn.fxml");
+        cargarVista("/dev/codegets/project/hotel/fxml/checkIn.fxml");
     }
     @FXML private void handleHabitaciones() {
         if (!"GERENTE".equals(usuarioActual.getRol())) return;
-        cargarVista("/resources/fxml/habitaciones.fxml");
+        cargarVista("/dev/codegets/project/hotel/fxml/habitaciones.fxml");
     }
     @FXML private void handleCheckOut() {
         if (!"GERENTE".equals(usuarioActual.getRol())) return;
-        cargarVista("/resources/fxml/checkOut.fxml");
+        cargarVista("/dev/codegets/project/hotel/fxml/checkOut.fxml");
     }
     @FXML private void handleReportes() {
         // Reportes es accesible para ambos roles si es necesario,
         // pero solo el Gerente/Admin puede verlo en el menú lateral.
         if (!"GERENTE".equals(usuarioActual.getRol()) && !"ADMIN".equals(usuarioActual.getRol())) return;
-        cargarVista("/resources/fxml/reportes.fxml");
+        cargarVista("/dev/codegets/project/hotel/fxml/reportes.fxml");
     }
 
     // --- Utilidades ---
@@ -106,7 +106,7 @@ public class MenuPrincipalController {
     private void handleCerrarSesion() {
         // Cargar la ventana de Login
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dev/codegets/project/hotel/fxml/configuracion.fxml"));
             Parent root = loader.load();
 
             Stage currentStage = (Stage) lblBienvenida.getScene().getWindow();
