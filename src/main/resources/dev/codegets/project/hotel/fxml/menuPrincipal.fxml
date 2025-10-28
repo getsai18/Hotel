@@ -6,52 +6,56 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import java.net.URL?>
 
-<BorderPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.MenuPrincipalController">
+<BorderPane prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="dev.codegets.project.hotel.controllers.MenuPrincipalController">
+
+    <stylesheets>
+        <URL value="@../css/style.css" />
+    </stylesheets>
+
     <left>
-        <VBox prefWidth="200.0" spacing="10.0" style="-fx-background-color: #0077b6;" BorderPane.alignment="CENTER">
+        <VBox prefWidth="250.0" spacing="15.0" styleClass="sidebar" BorderPane.alignment="CENTER">
             <padding>
-                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                <Insets bottom="30.0" left="20.0" right="20.0" top="30.0" />
             </padding>
-            <Label fx:id="lblBienvenida" text="Bienvenido" textFill="WHITE">
+
+            <Label text="TPS Hotel Management" styleClass="logo-text">
                 <font>
-                    <Font name="System Bold" size="18.0" />
+                    <Font name="System Bold" size="20.0" />
                 </font>
+                <VBox.margin>
+                    <Insets bottom="15.0" />
+                </VBox.margin>
             </Label>
-            <Label fx:id="lblRol" text="Rol: ADMINISTRADOR" textFill="WHITE" VBox.vgrow="NEVER" />
 
-            <VBox fx:id="menuAdmin" spacing="10.0" VBox.vgrow="ALWAYS">
-                <Label text="ADMINISTRACIÓN" textFill="#e0e0e0" style="-fx-font-weight: bold; -fx-padding: 10 0 0 0;" />
-                <Button text="Configuración" prefWidth="180.0" onAction="#handleConfiguracion" styleClass="menu-button" />
+            <Label fx:id="lblBienvenida" text="Bienvenido" styleClass="user-name" />
+            <Label fx:id="lblRol" text="Rol: ADMINISTRADOR" styleClass="user-role" VBox.vgrow="NEVER" />
+
+            <VBox fx:id="menuAdmin" spacing="10.0" VBox.vgrow="SOMETIMES">
+                <Label text="ADMINISTRACIÓN" styleClass="menu-section-title" />
+                <Button text="Configuración" prefWidth="230.0" onAction="#handleConfiguracion" styleClass="menu-button-main" />
             </VBox>
 
-            <VBox fx:id="menuGerente" spacing="10.0" managed="false" visible="false" VBox.vgrow="ALWAYS">
-                <Label text="OPERACIONES" textFill="#e0e0e0" style="-fx-font-weight: bold; -fx-padding: 10 0 0 0;" />
-                <Button text="Reservas" prefWidth="180.0" onAction="#handleReservas" styleClass="menu-button" />
-                <Button text="Check-in" prefWidth="180.0" onAction="#handleCheckIn" styleClass="menu-button" />
-                <Button text="Habitaciones" prefWidth="180.0" onAction="#handleHabitaciones" styleClass="menu-button" />
-                <Button text="Check-out y Pagos" prefWidth="180.0" onAction="#handleCheckOut" styleClass="menu-button" />
-                <Button text="Reportes" prefWidth="180.0" onAction="#handleReportes" styleClass="menu-button" />
+            <VBox fx:id="menuGerente" spacing="10.0" managed="false" visible="false" VBox.vgrow="SOMETIMES">
+                <Label text="OPERACIONES" styleClass="menu-section-title" />
+                <Button text="Reservas" prefWidth="230.0" onAction="#handleReservas" styleClass="menu-button-main" />
+                <Button text="Check-in" prefWidth="230.0" onAction="#handleCheckIn" styleClass="menu-button-main" />
+                <Button text="Habitaciones" prefWidth="230.0" onAction="#handleHabitaciones" styleClass="menu-button-main" />
+                <Button text="Check-out y Pagos" prefWidth="230.0" onAction="#handleCheckOut" styleClass="menu-button-main" />
+                <Button text="Reportes" prefWidth="230.0" onAction="#handleReportes" styleClass="menu-button-main" />
             </VBox>
 
-            <Button text="Cerrar Sesión" onAction="#handleCerrarSesion" prefWidth="180.0" style="-fx-background-color: #e63946; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <VBox VBox.vgrow="ALWAYS" alignment="BOTTOM_CENTER">
+                <Button text="Cerrar Sesión" onAction="#handleCerrarSesion" prefWidth="230.0" styleClass="btn-logout" />
+            </VBox>
         </VBox>
     </left>
+
     <center>
-        <VBox fx:id="contentArea" alignment="CENTER" BorderPane.alignment="CENTER">
-            <Label text="Selecciona una opción del menú" />
+        <VBox fx:id="contentArea" alignment="CENTER" styleClass="content-area" BorderPane.alignment="CENTER">
+            <Label text="Selecciona una opción del menú" styleClass="welcome-text" />
         </VBox>
     </center>
-    <style>
-        .menu-button {
-        -fx-background-color: transparent;
-        -fx-text-fill: white;
-        -fx-alignment: CENTER_LEFT;
-        -fx-border-color: #0096c7;
-        -fx-border-width: 0 0 0 3px;
-        }
-        .menu-button:hover {
-        -fx-background-color: #005f93;
-        }
-    </style>
 </BorderPane>

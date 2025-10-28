@@ -1,0 +1,319 @@
+/* =========================================================================
+   PALETA DE COLORES Y VARIABLES GLOBALES
+   ========================================================================= */
+.sidebar {
+    -fx-background-color: #0077B6; /* Azul Primario Fuerte */
+}
+
+/* ------------------ BOTÓN CERRAR SESIÓN ------------------ */
+.btn-logout {
+    -fx-background-color: #E63946; /* Rojo de Alerta Llamativo */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 0;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.2, 0, 2);
+}
+.btn-logout:hover {
+    -fx-background-color: #CC2837;
+}
+
+/* ------------------ ÁREA DE CONTENIDO CENTRAL (Contenedor Base) ------------------ */
+.content-area, .content-area-module {
+    -fx-background-color: #F8F8F8; /* Fondo Base Limpio */
+    -fx-padding: 30px;
+}
+.content-padding {
+    -fx-padding: 30px;
+}
+
+/* =========================================================================
+   1. ESTILOS DE NAVEGACIÓN Y TEXTO DE BARRA LATERAL (menuPrincipal.fxml)
+   ========================================================================= */
+
+.logo-text {
+    -fx-text-fill: white;
+    -fx-font-weight: 800;
+    -fx-font-size: 24px;
+}
+
+.user-name {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+.user-role {
+    -fx-text-fill: #B3E5FC; /* Azul muy claro */
+    -fx-font-size: 12px;
+}
+
+.menu-section-title {
+    -fx-text-fill: #B3E5FC;
+    -fx-font-weight: bold;
+    -fx-padding: 15px 0 0 0;
+    -fx-font-size: 13px;
+}
+
+/* Botones de Navegación */
+.menu-button-main {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12px 15px;
+    -fx-border-color: #00A389; /* Acento Teal Llamativo */
+    -fx-border-width: 0 0 0 4px;
+    -fx-font-size: 15px;
+    -fx-cursor: hand;
+    -fx-background-radius: 3px;
+    -fx-font-weight: bold;
+}
+.menu-button-main:hover {
+    -fx-background-color: #005f93;
+    -fx-border-color: #FFFFFF;
+}
+.menu-button-main:focused {
+    -fx-background-color: #00A389;
+    -fx-border-color: #FFFFFF;
+}
+
+.welcome-text {
+    -fx-font-size: 24px;
+    -fx-text-fill: #333333;
+    -fx-font-weight: 500;
+}
+
+/* =========================================================================
+   2. ESTILOS GENÉRICOS DE MÓDULOS (Tarjetas y Botones)
+   ========================================================================= */
+
+.module-title {
+    -fx-text-fill: #0077B6;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+.checkout-title { /* Específico de Check-out */
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+    -fx-text-fill: #0077B6;
+}
+.section-title-md {
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-text-fill: #333333;
+}
+
+/* TARJETAS */
+.card-panel, .card-panel-thin {
+    -fx-background-color: white;
+    -fx-padding: 25px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0.1, 0, 3);
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 1px;
+}
+.card-panel { /* Estilo más grueso para secciones grandes */
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+}
+.card-panel-thin { /* Estilo para barras de control/información */
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 15px;
+}
+.card-section-title {
+    -fx-text-fill: #333333;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 10px 0;
+}
+
+/* INPUTS */
+.label-form, .label-bold {
+    -fx-text-fill: #424242;
+    -fx-font-weight: 500;
+}
+.label-bold { -fx-font-weight: bold; }
+
+.text-field-clean, .date-picker-clean, .combo-box-clean, .text-field-search {
+    -fx-background-color: #F0F0F0;
+    -fx-border-color: #D3D3D3;
+    -fx-border-width: 0 0 2px 0;
+    -fx-background-radius: 4px 4px 0 0;
+    -fx-padding: 8px;
+}
+.text-field-clean:focused, .date-picker-clean:focused, .combo-box-clean:focused {
+    -fx-border-color: #0077B6;
+    -fx-background-color: white;
+}
+
+/* BOTONES DE ACCIÓN */
+.btn-primary-action, .btn-accent-action-special {
+    -fx-background-color: #00A389; /* Teal Éxito/Primario */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+.btn-primary-action:hover, .btn-accent-action-special:hover {
+    -fx-background-color: #00897B;
+}
+.btn-secondary-action { /* Gris de Refrescar */
+    -fx-background-color: #BBBBBB;
+    -fx-text-fill: #333333;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 15px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+.btn-secondary-action:hover { -fx-background-color: #999999; }
+
+.btn-accent-action, .btn-secondary-accent { /* Rojo de Acción Crítica/Alerta */
+    -fx-background-color: #E63946;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+.btn-finalizar-checkout { /* Botón final grande */
+    -fx-background-color: #00A389;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 15px 30px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+
+/* ETIQUETAS DE ESTADO Y MONTO */
+.status-label-red { -fx-font-weight: bold; -fx-text-fill: #E63946; }
+.status-label-green { -fx-font-weight: bold; -fx-text-fill: #00A389; }
+.label-bold-large { -fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #333333; }
+.label-total-pendiente { -fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #E63946; }
+
+/* =========================================================================
+   3. ESTILOS DE TABLAS (Habitaciones)
+   ========================================================================= */
+
+.custom-table {
+    -fx-background-color: white;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+}
+.custom-table .column-header-background {
+    -fx-background-color: #0077B6;
+    -fx-background-radius: 8px 8px 0 0;
+    -fx-padding: 10px 0;
+}
+.custom-table .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+.custom-table .table-row-cell {
+    -fx-cell-size: 35px;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 0 0 1px 0;
+}
+
+/* ESTILOS DINÁMICOS DE FILAS (Elegantes) */
+.table-row-cell.ocupada {
+    -fx-background-color: #F8D0CC; /* Terracota muy claro */
+    -fx-text-fill: #A00010;
+}
+.table-row-cell.ocupada .text { -fx-fill: #A00010; -fx-font-weight: bold; }
+
+.table-row-cell.reservada {
+    -fx-background-color: #DEEBF7; /* Azul/Gris muy ligero */
+    -fx-text-fill: #333333;
+}
+.table-row-cell.reservada .text { -fx-fill: #333333; }
+
+.table-row-cell.mantenimiento {
+    -fx-background-color: #E9ECEF;
+    -fx-text-fill: #666666;
+}
+.table-row-cell.mantenimiento .text { -fx-fill: #666666; }
+
+.table-row-cell.disponible {
+    -fx-background-color: #D4EDDA; /* Verde Menta muy sutil */
+    -fx-text-fill: #155724;
+}
+.table-row-cell.disponible .text { -fx-fill: #155724; -fx-font-weight: bold; }
+
+/* =========================================================================
+   ESTILOS ESPECÍFICOS DE LOGIN (Doble Panel)
+   ========================================================================= */
+
+/* Panel Izquierdo (Oscuro, Azul/Teal del proyecto) */
+.left-panel {
+    -fx-background-color: #263238;
+    -fx-padding: 40px;
+}
+
+/* Panel Derecho (Claro, Formulario) */
+.right-panel {
+    -fx-background-color: #F8F8F8; /* Gris muy claro */
+    -fx-padding: 40px 60px;
+}
+
+/* Títulos y Texto */
+.form-title {
+    -fx-text-fill: #0077b6; /* Azul Primario del Proyecto */
+    -fx-padding: 0 0 10px 0;
+}
+.label-input {
+    -fx-font-weight: bold;
+    -fx-text-fill: #424242;
+    -fx-font-size: 11px;
+    -fx-padding: 0 0 3px 0;
+}
+.checkbox {
+    -fx-text-fill: #666666;
+}
+
+/* Campos de Texto (Estilo Moderno Sin Borde) */
+.text-input {
+    -fx-background-color: transparent;
+    -fx-border-color: #D3D3D3;
+    -fx-border-width: 0 0 2px 0; /* Línea inferior fina */
+    -fx-padding: 8px 0;
+    -fx-font-size: 14px;
+}
+.text-input:focused {
+    -fx-border-color: #00A389; /* Teal de acento */
+}
+
+/* Botón Primario de Login */
+.btn-primary-login {
+    -fx-background-color: #00A389; /* Teal Brillante (Acento) */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-padding: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.2, 0, 2);
+    -fx-cursor: hand;
+}
+.btn-primary-login:hover {
+    -fx-background-color: #00897B;
+}
+
+/* Botón Secundario (Panel Izquierdo) */
+.btn-secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: #90CAF9;
+    -fx-border-color: #90CAF9;
+    -fx-border-radius: 4px;
+    -fx-padding: 8px 15px;
+    -fx-cursor: hand;
+}
+
+/* Enlace Olvidar Contraseña */
+.link-forgot {
+    -fx-text-fill: #0077b6;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}

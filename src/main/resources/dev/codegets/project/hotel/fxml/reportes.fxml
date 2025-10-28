@@ -10,33 +10,35 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="650.0" prefWidth="800.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.ReportesController">
+<VBox prefHeight="650.0" prefWidth="800.0" spacing="20.0" styleClass="content-area-module" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.ReportesController">
     <padding>
         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
     </padding>
-    <Label text="📊 Módulo de Reportes" style="-fx-font-weight: bold;">
+
+    <Label text="📊 Módulo de Reportes" styleClass="module-title">
         <font>
-            <Font size="24.0" />
+            <Font size="26.0" />
         </font>
     </Label>
     <Separator />
 
-    <HBox alignment="CENTER_LEFT" spacing="10.0">
-        <Label text="Rango de Fechas:" />
-        <DatePicker fx:id="dpFechaInicio" promptText="Fecha Inicio" />
-        <Label text="a" />
-        <DatePicker fx:id="dpFechaFin" promptText="Fecha Fin" />
-        <Button fx:id="btnGenerarIngresos" text="Reporte de Ingresos" onAction="#handleGenerarIngresos" />
-        <Button fx:id="btnGenerarOcupacion" text="Reporte de Ocupación" onAction="#handleGenerarOcupacion" />
+    <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="card-panel-thin">
+        <Label text="Rango de Fechas:" styleClass="label-bold" />
+        <DatePicker fx:id="dpFechaInicio" promptText="Fecha Inicio" styleClass="date-picker-clean" />
+        <Label text="a" styleClass="label-bold" />
+        <DatePicker fx:id="dpFechaFin" promptText="Fecha Fin" styleClass="date-picker-clean" />
+
+        <HBox spacing="10.0" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+            <Button fx:id="btnGenerarIngresos" text="Reporte de Ingresos" onAction="#handleGenerarIngresos" styleClass="btn-primary-action" />
+            <Button fx:id="btnGenerarOcupacion" text="Reporte de Ocupación" onAction="#handleGenerarOcupacion" styleClass="btn-secondary-action" />
+        </HBox>
     </HBox>
 
     <Separator />
 
-    <Label fx:id="lblTituloReporte" text="Resultados del Reporte" style="-fx-font-weight: bold;">
-        <font>
-            <Font size="16.0" />
-        </font>
-    </Label>
+    <VBox VBox.vgrow="ALWAYS" spacing="10.0">
+        <Label fx:id="lblTituloReporte" text="Resultados del Reporte" styleClass="section-title-md" />
 
-    <TextArea fx:id="txtReporteArea" editable="false" prefHeight="450.0" VBox.vgrow="ALWAYS" />
+        <TextArea fx:id="txtReporteArea" editable="false" prefHeight="450.0" VBox.vgrow="ALWAYS" styleClass="report-text-area" />
+    </VBox>
 </VBox>

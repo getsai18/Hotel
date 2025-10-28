@@ -106,7 +106,7 @@ public class MenuPrincipalController {
     private void handleCerrarSesion() {
         // Cargar la ventana de Login
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dev/codegets/project/hotel/fxml/configuracion.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dev/codegets/project/hotel/fxml/login.fxml"));
             Parent root = loader.load();
 
             Stage currentStage = (Stage) lblBienvenida.getScene().getWindow();

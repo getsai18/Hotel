@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import java.net.URL?>
 
-<HBox prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.LoginController">
+<HBox prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.LoginController">
+
+    <stylesheets>
+        <URL value="@../css/style.css" />
+    </stylesheets>
 
     <VBox alignment="CENTER" prefHeight="550.0" prefWidth="350.0" styleClass="left-panel">
         <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
             <VBox.margin>
                 <Insets bottom="20.0" />
             </VBox.margin>
-         <image>
-            <Image url="@../imagen/hotel.png" />
-         </image>
+            <image>
+                <Image url="@../imagen/hotel.png" />
+            </image>
         </ImageView>
         <Label text="Gestión Hotelera" textFill="WHITE">
             <font>
@@ -69,77 +81,4 @@
             <Label styleClass="link-forgot" text="¿Olvidaste tu Contraseña?" />
         </VBox>
     </AnchorPane>
-
-    <style>
-        /* Panel Izquierdo (Oscuro, Azul/Teal del proyecto) */
-        .left-panel {
-        -fx-background-color: #263238;
-        -fx-padding: 40px;
-        }
-
-        /* Panel Derecho (Claro, Formulario) */
-        .right-panel {
-        -fx-background-color: #F8F8F8; /* Gris muy claro */
-        -fx-padding: 40px 60px;
-        }
-
-        /* Títulos y Texto */
-        .form-title {
-        -fx-text-fill: #0077b6; /* Azul Primario del Proyecto */
-        -fx-padding: 0 0 10px 0;
-        }
-        .label-input {
-        -fx-font-weight: bold;
-        -fx-text-fill: #424242;
-        -fx-font-size: 11px;
-        -fx-padding: 0 0 3px 0;
-        }
-        .checkbox {
-        -fx-text-fill: #666666;
-        }
-
-        /* Campos de Texto (Estilo Moderno Sin Borde) */
-        .text-input {
-        -fx-background-color: transparent;
-        -fx-border-color: #D3D3D3;
-        -fx-border-width: 0 0 2px 0; /* Línea inferior fina */
-        -fx-padding: 8px 0;
-        -fx-font-size: 14px;
-        }
-        .text-input:focused {
-        -fx-border-color: #00A389; /* Teal de acento */
-        }
-
-        /* Botón Primario de Login */
-        .btn-primary-login {
-        -fx-background-color: #00A389; /* Teal Brillante */
-        -fx-text-fill: white;
-        -fx-font-weight: bold;
-        -fx-font-size: 16px;
-        -fx-padding: 15px;
-        -fx-background-radius: 5px;
-        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.2, 0, 2);
-        -fx-cursor: hand;
-        }
-        .btn-primary-login:hover {
-        -fx-background-color: #00897B;
-        }
-
-        /* Botón Secundario (Panel Izquierdo) */
-        .btn-secondary {
-        -fx-background-color: transparent;
-        -fx-text-fill: #90CAF9;
-        -fx-border-color: #90CAF9;
-        -fx-border-radius: 4px;
-        -fx-padding: 8px 15px;
-        -fx-cursor: hand;
-        }
-
-        /* Enlace Olvidar Contraseña */
-        .link-forgot {
-        -fx-text-fill: #0077b6;
-        -fx-font-size: 12px;
-        -fx-cursor: hand;
-        }
-    </style>
 </HBox>

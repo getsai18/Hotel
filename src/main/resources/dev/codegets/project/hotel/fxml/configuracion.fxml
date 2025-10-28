@@ -5,75 +5,83 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="650.0" prefWidth="800.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.ConfiguracionController">
-    <padding>
-        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
-    </padding>
-    <Label text="🛠️ Configuración del Sistema" style="-fx-font-weight: bold;">
-        <font>
-            <Font size="24.0" />
-        </font>
-    </Label>
-    <Separator />
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="dev.codegets.project.hotel.controllers.ConfiguracionController" styleClass="bg-base">
 
-    <Label text="1. Gestión de Gerente" style="-fx-font-weight: bold;">
-        <font>
-            <Font size="18.0" />
-        </font>
-    </Label>
-    <GridPane hgap="10.0" vgap="10.0">
-        <Label text="Estado actual:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <Label fx:id="lblEstadoGerente" text="No existe un gerente activo." style="-fx-font-weight: bold; -fx-text-fill: red;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+    <VBox prefWidth="800.0" spacing="30.0" styleClass="content-padding">
 
-        <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <TextField fx:id="txtGerenteNombre" promptText="Nombre completo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Label text="Usuario (Username):" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <TextField fx:id="txtGerenteUsername" promptText="Usuario para login" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-        <Label text="Contraseña (temporal):" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-        <TextField fx:id="txtGerentePassword" promptText="Contraseña inicial" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-        <Button fx:id="btnGestionGerente" text="Crear/Actualizar Gerente" onAction="#handleGestionGerente" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-    </GridPane>
-    <Separator />
+        <Label text="🛠️ Configuración del Sistema" styleClass="module-title">
+            <font>
+                <Font size="26.0" />
+            </font>
+        </Label>
+        <Separator />
 
-    <Label text="2. Precios Base por Noche (Moneda Local)" style="-fx-font-weight: bold;">
-        <font>
-            <Font size="18.0" />
-        </font>
-    </Label>
-    <GridPane hgap="10.0" vgap="10.0">
-        <Label text="Precio MASTER:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <TextField fx:id="txtPrecioMaster" promptText="Ej: 150.00" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-        <Label text="Precio ESTANDAR:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <TextField fx:id="txtPrecioEstandar" promptText="Ej: 80.00" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Button text="Guardar Precios" onAction="#handleGuardarPrecios" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-    </GridPane>
-    <Separator />
+        <VBox spacing="15.0" styleClass="card-panel">
+            <Label text="1. Gestión de Gerente" styleClass="card-section-title" />
 
-    <Label text="3. Parámetros de Operación y Penalizaciones (Valores en porcentaje [0.00-1.00] o en hora [HH.MM])" style="-fx-font-weight: bold;">
-        <font>
-            <Font size="18.0" />
-        </font>
-    </Label>
-    <GridPane hgap="10.0" vgap="10.0">
-        <Label text=" Recargo por Check-in Tarde (5% = 0.05):" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <TextField fx:id="txtRecargoTarde" promptText="PORCENTAJE_RECARGO_CHECKIN_TARDE" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <GridPane hgap="20.0" vgap="10.0">
+                <Label text="Estado actual:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="label-bold" />
+                <Label fx:id="lblEstadoGerente" text="No existe un gerente activo." styleClass="status-label-red" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-        <Label text="Penalización por No Show (50% = 0.50):" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <TextField fx:id="txtPenalizacionNoShow" promptText="PORCENTAJE_PENALIZACION_NO_SHOW" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="label-form" />
+                <TextField fx:id="txtGerenteNombre" promptText="Nombre completo" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="text-field-clean" />
 
-        <Label text=" Descuento por Reserva Anticipada (10% = 0.10):" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <TextField fx:id="txtDescuentoAnticipada" promptText="PORCENTAJE_DESCUENTO_ANTICIPADA" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label text="Usuario (Username):" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="label-form" />
+                <TextField fx:id="txtGerenteUsername" promptText="Usuario para login" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="text-field-clean" />
 
-        <Label text="Hora Check-in Estándar (HH.MM - Ej: 15.00):" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-        <TextField fx:id="txtHoraCheckin" promptText="HORA_CHECKIN" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Label text="Contraseña (temporal):" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="label-form" />
+                <TextField fx:id="txtGerentePassword" promptText="Contraseña inicial" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="text-field-clean" />
 
-        <Label text="Hora Check-out Estándar (HH.MM - Ej: 15.00):" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-        <TextField fx:id="txtHoraCheckout" promptText="HORA_CHECKOUT" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <Button fx:id="btnGestionGerente" text="Crear/Actualizar Gerente" onAction="#handleGestionGerente" prefWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="btn-accent-action" />
+            </GridPane>
+        </VBox>
+        <Separator />
 
-        <Button text="Guardar Parámetros" onAction="#handleGuardarParametros" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-    </GridPane>
-</VBox>
+        <VBox spacing="15.0" styleClass="card-panel">
+            <Label text="2. Precios Base por Noche (Moneda Local)" styleClass="card-section-title" />
+
+            <GridPane hgap="20.0" vgap="10.0">
+                <Label text="Precio MASTER:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="label-form" />
+                <TextField fx:id="txtPrecioMaster" promptText="Ej: 150.00" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="text-field-clean" />
+
+                <Label text="Precio ESTANDAR:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="label-form" />
+                <TextField fx:id="txtPrecioEstandar" promptText="Ej: 80.00" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="text-field-clean" />
+
+                <Button text="Guardar Precios" onAction="#handleGuardarPrecios" prefWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="btn-primary-action" />
+            </GridPane>
+        </VBox>
+        <Separator />
+
+        <VBox spacing="15.0" styleClass="card-panel">
+            <Label text="3. Parámetros de Operación y Penalizaciones" styleClass="card-section-title" />
+
+            <GridPane hgap="20.0" vgap="10.0">
+                <Label text="Recargo por Check-in Tarde (5% = 0.05):" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="label-form" />
+                <TextField fx:id="txtRecargoTarde" promptText="PORCENTAJE_RECARGO_CHECKIN_TARDE" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="text-field-clean" />
+
+                <Label text="Penalización por No Show (50% = 0.50):" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="label-form" />
+                <TextField fx:id="txtPenalizacionNoShow" promptText="PORCENTAJE_PENALIZACION_NO_SHOW" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="text-field-clean" />
+
+                <Label text="Descuento por Reserva Anticipada (10% = 0.10):" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="label-form" />
+                <TextField fx:id="txtDescuentoAnticipada" promptText="PORCENTAJE_DESCUENTO_ANTICIPADA" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="text-field-clean" />
+
+                <Label text="Hora Check-in Estándar (HH.MM - Ej: 15.00):" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="label-form" />
+                <TextField fx:id="txtHoraCheckin" promptText="HORA_CHECKIN" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="text-field-clean" />
+
+                <Label text="Hora Check-out Estándar (HH.MM - Ej: 15.00):" GridPane.columnIndex="0" GridPane.rowIndex="4" styleClass="label-form" />
+                <TextField fx:id="txtHoraCheckout" promptText="HORA_CHECKOUT" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="text-field-clean" />
+
+                <Button text="Guardar Parámetros" onAction="#handleGuardarParametros" prefWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="5" styleClass="btn-primary-action" />
+            </GridPane>
+        </VBox>
+
+        <Region prefHeight="50.0" />
+    </VBox>
+</ScrollPane>

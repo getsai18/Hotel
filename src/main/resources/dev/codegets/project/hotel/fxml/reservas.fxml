@@ -13,65 +13,62 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="700.0" prefWidth="850.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.ReservasController">
+<VBox prefHeight="700.0" prefWidth="850.0" spacing="20.0" styleClass="content-area-module" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.ReservasController">
     <padding>
         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
     </padding>
-    <Label text="🗓️ Módulo de Reservas" style="-fx-font-weight: bold;">
-        <font>
-            <Font size="24.0" />
-        </font>
-    </Label>
+
+    <Label text="🗓️ Módulo de Reservas" styleClass="module-title" />
     <Separator />
 
-    <Label text="1. Datos del Cliente" style="-fx-font-weight: bold;">
-        <font>
-            <Font size="16.0" />
-        </font>
-    </Label>
-    <GridPane hgap="10.0" vgap="10.0">
-        <Label text="Nombre Completo:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <TextField fx:id="txtNombreCliente" promptText="Nombre del titular de la reserva" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-        <Label text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <TextField fx:id="txtTelefonoCliente" promptText="Teléfono de contacto" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Label text="Correo Electrónico:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <TextField fx:id="txtCorreoCliente" promptText="Correo para confirmación" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-    </GridPane>
-    <Separator />
+    <VBox spacing="15.0" styleClass="card-panel">
+        <Label text="1. Datos del Cliente" styleClass="card-section-title" />
 
-    <Label text="2. Detalles de la Estancia" style="-fx-font-weight: bold;">
-        <font>
-            <Font size="16.0" />
-        </font>
-    </Label>
-    <GridPane hgap="10.0" vgap="10.0">
-        <Label text="Check-in (Día de llegada):" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <DatePicker fx:id="dpFechaInicio" promptText="Fecha de inicio" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-        <Label text="Check-out (Día de salida):" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <DatePicker fx:id="dpFechaFin" promptText="Fecha de fin" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <GridPane hgap="20.0" vgap="15.0">
+            <Label text="Nombre Completo:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="label-form" />
+            <TextField fx:id="txtNombreCliente" promptText="Nombre del titular de la reserva" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="text-field-clean" />
 
-        <Label text="Habitación Disponible:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <ComboBox fx:id="cmbHabitacion" prefWidth="250.0" promptText="Selecciona una habitación" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="label-form" />
+            <TextField fx:id="txtTelefonoCliente" promptText="Teléfono de contacto" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="text-field-clean" />
 
-        <Button text="Filtrar Disponibilidad (opcional)" onAction="#handleBuscarDisponibilidad" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-    </GridPane>
-    <Separator />
-
-    <Label text="3. Cálculo y Confirmación" style="-fx-font-weight: bold;">
-        <font>
-            <Font size="16.0" />
-        </font>
-    </Label>
-    <HBox alignment="CENTER_LEFT" spacing="20.0">
-        <Label text="Monto Total Calculado:" style="-fx-font-weight: bold;" />
-        <Label fx:id="lblMontoCalculado" text="0.00" style="-fx-font-weight: bold; -fx-font-size: 20; -fx-text-fill: #2a9d8f;" />
-        <Button text="Recalcular Monto" onAction="#calcularMonto" style="-fx-background-color: #2a9d8f; -fx-text-fill: white;" />
-    </HBox>
-
-    <VBox spacing="5.0">
-        <CheckBox fx:id="chkPagaTotal" text="El cliente paga el monto TOTAL al reservar (Aplicar descuento anticipado)" />
-        <Label text="Nota: Al crear la reserva, la habitación se marca como Reservada." style="-fx-font-style: italic;" />
+            <Label text="Correo Electrónico:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="label-form" />
+            <TextField fx:id="txtCorreoCliente" promptText="Correo para confirmación" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="text-field-clean" />
+        </GridPane>
     </VBox>
+    <Separator />
 
-    <Button text="CREAR RESERVA" onAction="#handleCrearReserva" prefWidth="300.0" style="-fx-background-color: #f4a261; -fx-text-fill: white; -fx-font-weight: bold;" />
+    <VBox spacing="15.0" styleClass="card-panel">
+        <Label text="2. Detalles de la Estancia" styleClass="card-section-title" />
+
+        <GridPane hgap="20.0" vgap="15.0">
+            <Label text="Check-in (Día de llegada):" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="label-form" />
+            <DatePicker fx:id="dpFechaInicio" promptText="Fecha de inicio" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="date-picker-clean" />
+
+            <Label text="Check-out (Día de salida):" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="label-form" />
+            <DatePicker fx:id="dpFechaFin" promptText="Fecha de fin" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="date-picker-clean" />
+
+            <Label text="Habitación Disponible:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="label-form" />
+            <ComboBox fx:id="cmbHabitacion" prefWidth="250.0" promptText="Selecciona una habitación" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="combo-box-clean" />
+
+            <Button text="Filtrar Disponibilidad (opcional)" onAction="#handleBuscarDisponibilidad" GridPane.columnIndex="2" GridPane.rowIndex="2" styleClass="btn-secondary-action" />
+        </GridPane>
+    </VBox>
+    <Separator />
+
+    <VBox spacing="15.0" styleClass="card-panel">
+        <Label text="3. Cálculo y Confirmación" styleClass="card-section-title" />
+
+        <HBox alignment="CENTER_LEFT" spacing="30.0">
+            <Label text="Monto Total Calculado:" styleClass="label-bold-large" />
+            <Label fx:id="lblMontoCalculado" text="0.00" styleClass="label-price-total" />
+            <Button text="Recalcular Monto" onAction="#calcularMonto" styleClass="btn-secondary-action" />
+        </HBox>
+
+        <VBox spacing="5.0">
+            <CheckBox fx:id="chkPagaTotal" text="El cliente paga el monto TOTAL al reservar (Aplicar descuento anticipado)" styleClass="checkbox-style" />
+            <Label text="Nota: La habitación se marcará como Reservada si la reserva se crea." styleClass="label-note" />
+        </VBox>
+
+        <Button text="CREAR RESERVA" onAction="#handleCrearReserva" prefWidth="300.0" styleClass="btn-accent-action-special" />
+    </VBox>
 </VBox>

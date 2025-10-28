@@ -9,33 +9,51 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="650.0" prefWidth="800.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.CheckInController">
+<VBox prefHeight="650.0" prefWidth="800.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="dev.codegets.project.hotel.controllers.CheckInController" styleClass="content-area-module">
+
     <padding>
         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
     </padding>
-    <Label text="🔑 Módulo de Check-in" style="-fx-font-weight: bold;">
+
+    <Label text="🔑 Módulo de Check-in" styleClass="module-title">
         <font>
-            <Font size="24.0" />
+            <Font size="26.0" />
         </font>
     </Label>
     <Separator />
 
-    <HBox alignment="CENTER_LEFT" spacing="10.0">
-        <Label text="ID de Reserva:" style="-fx-font-weight: bold;" />
-        <TextField fx:id="txtIdReserva" promptText="Ingresa el ID" />
-        <Button fx:id="btnBuscarReserva" text="Buscar Reserva" onAction="#handleBuscarReserva" />
-    </HBox>
-    <Separator />
-
-    <Label text="Información de la Estancia" style="-fx-font-weight: bold;">
-        <font>
-            <Font size="16.0" />
-        </font>
-    </Label>
-    <Label fx:id="lblDetallesReserva" text="Detalles de la reserva aparecerán aquí..." style="-fx-font-size: 14;" VBox.vgrow="ALWAYS" />
-
-    <Label fx:id="lblRecargo" text="" style="-fx-font-size: 14;" />
+    <VBox spacing="10.0" styleClass="card-panel-thin">
+        <Label text="Buscar por ID de Reserva" styleClass="card-section-title" />
+        <HBox alignment="CENTER_LEFT" spacing="15.0">
+            <Label text="ID de Reserva:" styleClass="label-bold" />
+            <TextField fx:id="txtIdReserva" promptText="Ingresa el ID" styleClass="text-field-clean" prefWidth="150.0" />
+            <Button fx:id="btnBuscarReserva" text="Buscar Reserva" onAction="#handleBuscarReserva" styleClass="btn-secondary-action" />
+        </HBox>
+    </VBox>
 
     <Separator />
-    <Button fx:id="btnRealizarCheckin" text="Completar Check-in y Registrar Recargos" onAction="#handleRealizarCheckin" prefWidth="350.0" disable="true" style="-fx-background-color: #2a9d8f; -fx-text-fill: white; -fx-font-weight: bold;" />
+
+    <VBox spacing="15.0" VBox.vgrow="ALWAYS" styleClass="card-panel">
+        <Label text="Información de la Estancia" styleClass="card-section-title">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+
+        <Label fx:id="lblDetallesReserva" text="Detalles de la reserva aparecerán aquí..." styleClass="label-form" VBox.vgrow="ALWAYS" />
+
+        <Label fx:id="lblRecargo" text="" styleClass="label-bold-large" />
+    </VBox>
+
+    <Separator />
+
+    <VBox alignment="CENTER_RIGHT">
+        <Button fx:id="btnRealizarCheckin"
+                text="Completar Check-in y Registrar Recargos"
+                onAction="#handleRealizarCheckin"
+                prefWidth="400.0"
+                disable="true"
+                styleClass="btn-primary-action" />
+    </VBox>
 </VBox>

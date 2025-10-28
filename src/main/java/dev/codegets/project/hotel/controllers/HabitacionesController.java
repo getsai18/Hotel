@@ -6,14 +6,15 @@ import dev.codegets.project.hotel.utils.Alertas;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 
+
+
 import java.util.List;
+
+
 
 
 public class HabitacionesController {
@@ -28,16 +29,42 @@ public class HabitacionesController {
     private final HabitacionDao habitacionDao = new HabitacionDao();
     private ObservableList<Habitacion> listaHabitaciones;
 
+// src/controllers/HabitacionesController.java
+
     @FXML
     public void initialize() {
+        // --- Configuración de celdas (EXISTENTE) ---
         colNumero.setCellValueFactory(new PropertyValueFactory<>("numero"));
         colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
         colPrecio.setCellValueFactory(new PropertyValueFactory<>("precioBase"));
 
-        cargarHabitaciones();
+        // --- LÓGICA CLAVE: Configuración de Fila para Estilos Dinámicos ---
+        tblHabitaciones.setRowFactory(tv -> new TableRow<Habitacion>() {
+            @Override
+            protected void updateItem(Habitacion item, boolean empty) {
+                super.updateItem(item, empty);
 
-        // Lógica de asignación directa (a implementar en Fase 5/6)
+                // 1. Limpiamos todas las clases CSS que pueda tener la fila
+                getStyleClass().remove("disponible");
+                getStyleClass().remove("ocupada");
+                getStyleClass().remove("reservada");
+                getStyleClass().remove("mantenimiento");
+
+                if (item != null && !empty) {
+                    // 2. Convertimos el estado a minúsculas (ej: 'DISPONIBLE' -> 'disponible')
+                    String estado = item.getEstado().toLowerCase();
+
+                    // 3. Aplicamos la clase CSS correspondiente para darle color
+                    getStyleClass().add(estado);
+                }
+            }
+        });
+        // --- FIN LÓGICA CLAVE ---
+
+        cargarHabitaciones(); // Aseguramos que los datos se carguen después de configurar la tabla
+
+        // Lógica de asignación directa (EXISTENTE)
         btnAsignarDirecto.setOnAction(event -> handleAsignacionDirecta());
     }
 
@@ -54,7 +81,7 @@ public class HabitacionesController {
     private void handleRefrescar() {
         cargarHabitaciones();
     }
-
+    @FXML
     private void handleAsignacionDirecta() {
         Habitacion selected = tblHabitaciones.getSelectionModel().getSelectedItem();
 
