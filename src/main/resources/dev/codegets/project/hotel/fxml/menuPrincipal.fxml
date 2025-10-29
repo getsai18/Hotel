@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import java.net.URL?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="dev.codegets.project.hotel.controllers.MenuPrincipalController">
+<BorderPane prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.MenuPrincipalController">
 
     <stylesheets>
         <URL value="@../css/style.css" />
@@ -21,7 +18,7 @@
                 <Insets bottom="30.0" left="20.0" right="20.0" top="30.0" />
             </padding>
 
-            <Label text="TPS Hotel Management" styleClass="logo-text">
+            <Label styleClass="logo-text" text="TPS Hotel :)">
                 <font>
                     <Font name="System Bold" size="20.0" />
                 </font>
@@ -30,32 +27,32 @@
                 </VBox.margin>
             </Label>
 
-            <Label fx:id="lblBienvenida" text="Bienvenido" styleClass="user-name" />
-            <Label fx:id="lblRol" text="Rol: ADMINISTRADOR" styleClass="user-role" VBox.vgrow="NEVER" />
+            <Label fx:id="lblBienvenida" styleClass="user-name" text="Bienvenido" />
+            <Label fx:id="lblRol" styleClass="user-role" text="Rol: ADMINISTRADOR" VBox.vgrow="NEVER" />
 
             <VBox fx:id="menuAdmin" spacing="10.0" VBox.vgrow="SOMETIMES">
-                <Label text="ADMINISTRACIÓN" styleClass="menu-section-title" />
-                <Button text="Configuración" prefWidth="230.0" onAction="#handleConfiguracion" styleClass="menu-button-main" />
+                <Label styleClass="menu-section-title" text="ADMINISTRACIÓN" />
+                <Button onAction="#handleConfiguracion" prefWidth="230.0" styleClass="menu-button-main" text="Configuración" />
             </VBox>
 
-            <VBox fx:id="menuGerente" spacing="10.0" managed="false" visible="false" VBox.vgrow="SOMETIMES">
-                <Label text="OPERACIONES" styleClass="menu-section-title" />
-                <Button text="Reservas" prefWidth="230.0" onAction="#handleReservas" styleClass="menu-button-main" />
-                <Button text="Check-in" prefWidth="230.0" onAction="#handleCheckIn" styleClass="menu-button-main" />
-                <Button text="Habitaciones" prefWidth="230.0" onAction="#handleHabitaciones" styleClass="menu-button-main" />
-                <Button text="Check-out y Pagos" prefWidth="230.0" onAction="#handleCheckOut" styleClass="menu-button-main" />
-                <Button text="Reportes" prefWidth="230.0" onAction="#handleReportes" styleClass="menu-button-main" />
+            <VBox fx:id="menuGerente" managed="false" spacing="10.0" visible="false" VBox.vgrow="SOMETIMES">
+                <Label styleClass="menu-section-title" text="OPERACIONES" />
+                <Button onAction="#handleReservas" prefWidth="230.0" styleClass="menu-button-main" text="Reservas" />
+                <Button onAction="#handleCheckIn" prefWidth="230.0" styleClass="menu-button-main" text="Check-in" />
+                <Button onAction="#handleHabitaciones" prefWidth="230.0" styleClass="menu-button-main" text="Habitaciones" />
+                <Button onAction="#handleCheckOut" prefWidth="230.0" styleClass="menu-button-main" text="Check-out y Pagos" />
+                <Button onAction="#handleReportes" prefWidth="230.0" styleClass="menu-button-main" text="Reportes" />
             </VBox>
 
-            <VBox VBox.vgrow="ALWAYS" alignment="BOTTOM_CENTER">
-                <Button text="Cerrar Sesión" onAction="#handleCerrarSesion" prefWidth="230.0" styleClass="btn-logout" />
+            <VBox alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
+                <Button onAction="#handleCerrarSesion" prefWidth="230.0" styleClass="btn-logout" text="Cerrar Sesión" />
             </VBox>
         </VBox>
     </left>
 
     <center>
         <VBox fx:id="contentArea" alignment="CENTER" styleClass="content-area" BorderPane.alignment="CENTER">
-            <Label text="Selecciona una opción del menú" styleClass="welcome-text" />
+            <Label styleClass="welcome-text" text="Selecciona una opción del menú" />
         </VBox>
     </center>
 </BorderPane>
