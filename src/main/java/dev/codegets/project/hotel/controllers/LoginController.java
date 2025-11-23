@@ -24,6 +24,15 @@ public class LoginController {
     private UsuarioDao usuarioDao = new UsuarioDao();
 
     @FXML
+    public void initialize() {
+        // Configurar Enter en el campo de usuario: pasa el foco al campo de contraseña
+        txtUsername.setOnAction(e -> txtPassword.requestFocus());
+        
+        // Configurar Enter para iniciar sesión solo desde el campo de contraseña
+        txtPassword.setOnAction(e -> handleLogin());
+    }
+
+    @FXML
     private void handleLogin() {
         String username = txtUsername.getText();
         String password = txtPassword.getText();
