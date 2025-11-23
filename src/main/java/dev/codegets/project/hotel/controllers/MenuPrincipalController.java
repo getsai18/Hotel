@@ -43,8 +43,8 @@ public class MenuPrincipalController {
             menuAdmin.setManaged(false);
             menuGerente.setVisible(true);
             menuGerente.setManaged(true);
-            // Cargar Habitaciones por defecto para GERENTE (Se implementa en Fase 5)
-            // handleHabitaciones();
+            // Cargar Reservas por defecto para GERENTE
+            handleReservas();
         }
     }
 
