@@ -5,66 +5,71 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="650.0" prefWidth="800.0" spacing="20.0" styleClass="content-area-module" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.CheckOutController">
-    <padding>
-        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
-    </padding>
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.CheckOutController">
+    <content>
+        <VBox prefHeight="650.0" prefWidth="800.0" spacing="20.0" styleClass="content-area-module">
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
 
-    <Label text="💰 Módulo de Check-out y Pagos" styleClass="checkout-title">
-        <font>
-            <Font size="24.0" />
-        </font>
-    </Label>
-    <Separator />
+            <Label text="💰 Módulo de Check-out y Pagos" styleClass="checkout-title">
+                <font>
+                    <Font size="24.0" />
+                </font>
+            </Label>
+            <Separator />
 
-    <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="card-panel-thin">
-        <Label text="Número de Habitación:" styleClass="label-bold" />
-        <TextField fx:id="txtHabitacionNumero" promptText="Habitación ocupada" styleClass="text-field-search" prefWidth="150.0" />
-        <Button fx:id="btnBuscarOcupacion" text="Buscar Ocupación" onAction="#handleBuscarOcupacion" styleClass="btn-secondary-action" />
+            <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="card-panel-thin">
+                <Label text="Número de Habitación:" styleClass="label-bold" />
+                <TextField fx:id="txtHabitacionNumero" promptText="Habitación ocupada" styleClass="text-field-search" prefWidth="150.0" />
+                <Button fx:id="btnBuscarOcupacion" text="Buscar Ocupación" onAction="#handleBuscarOcupacion" styleClass="btn-secondary-action" />
 
-        <Button text="Gestionar Pagos y Devoluciones" onAction="#handleGestionPagos" styleClass="btn-secondary-accent" />
-    </HBox>
-    <Separator />
+                <Button text="Gestionar Pagos y Devoluciones" onAction="#handleGestionPagos" styleClass="btn-secondary-accent" />
+            </HBox>
+            <Separator />
 
-    <VBox spacing="10.0" styleClass="card-panel">
-        <Label text="Detalles de Ocupación" styleClass="card-section-title" />
-        <GridPane hgap="20.0" vgap="10.0">
-            <Label text="Reserva ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="label-form" />
-            <Label fx:id="lblReservaID" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="label-bold" />
+            <VBox spacing="10.0" styleClass="card-panel">
+                <Label text="Detalles de Ocupación" styleClass="card-section-title" />
+                <GridPane hgap="20.0" vgap="10.0">
+                    <Label text="Reserva ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="label-form" />
+                    <Label fx:id="lblReservaID" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="label-bold" />
 
-            <Label text="Cliente:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="label-form" />
-            <Label fx:id="lblClienteInfo" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="label-bold" />
+                    <Label text="Cliente:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="label-form" />
+                    <Label fx:id="lblClienteInfo" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="label-bold" />
 
-            <Label text="Fecha de Salida Estimada:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="label-form" />
-            <Label fx:id="lblFechaSalidaEstimada" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="label-bold" />
-        </GridPane>
-    </VBox>
-    <Separator />
+                    <Label text="Fecha de Salida Estimada:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="label-form" />
+                    <Label fx:id="lblFechaSalidaEstimada" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="label-bold" />
+                </GridPane>
+            </VBox>
+            <Separator />
 
-    <VBox spacing="10.0" styleClass="card-panel">
-        <Label text="Cálculo de Finalización" styleClass="section-title-md" />
+            <VBox spacing="10.0" styleClass="card-panel">
+                <Label text="Cálculo de Finalización" styleClass="section-title-md" />
 
-        <Label fx:id="lblPenalizacionInfo" text="Estado de Check-out..." styleClass="label-form" />
+                <Label fx:id="lblPenalizacionInfo" text="Estado de Check-out..." styleClass="label-form" />
 
-        <HBox alignment="CENTER_LEFT" spacing="10.0">
-            <Label text="Total Pendiente (Penalizaciones/Día Extra):" styleClass="label-bold-large" />
-            <Label fx:id="lblTotalPendiente" text="0.00" styleClass="label-total-pendiente" />
-        </HBox>
-    </VBox>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <Label text="Total Pendiente (Penalizaciones/Día Extra):" styleClass="label-bold-large" />
+                    <Label fx:id="lblTotalPendiente" text="0.00" styleClass="label-total-pendiente" />
+                </HBox>
+            </VBox>
 
-    <Separator />
+            <Separator />
 
-    <VBox alignment="CENTER_RIGHT">
-        <Button fx:id="btnFinalizarCheckOut"
-                text="FINALIZAR CHECK-OUT y CERRAR CUENTA"
-                onAction="#handleFinalizarCheckOut"
-                prefWidth="450.0"
-                disable="true"
-                styleClass="btn-finalizar-checkout" />
-    </VBox>
-</VBox>
+            <VBox alignment="CENTER_RIGHT">
+                <Button fx:id="btnFinalizarCheckOut"
+                        text="FINALIZAR CHECK-OUT y CERRAR CUENTA"
+                        onAction="#handleFinalizarCheckOut"
+                        prefWidth="450.0"
+                        disable="true"
+                        styleClass="btn-finalizar-checkout" />
+            </VBox>
+        </VBox>
+    </content>
+</ScrollPane>

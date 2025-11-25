@@ -4,6 +4,7 @@ import dev.codegets.project.hotel.models.Usuario;
 import dev.codegets.project.hotel.models.dao.UsuarioDao;
 import dev.codegets.project.hotel.utils.Alertas;
 import dev.codegets.project.hotel.utils.SecurityUtils;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -79,6 +80,7 @@ public class LoginController {
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
             stage.show();
+            Platform.runLater(() -> stage.setMaximized(true));
 
         } catch (IOException e) {
             Alertas.mostrarError("Error de Aplicación", "No se pudo cargar la ventana principal.");
