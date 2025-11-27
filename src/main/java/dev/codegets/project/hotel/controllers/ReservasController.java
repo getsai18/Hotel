@@ -11,7 +11,10 @@ import dev.codegets.project.hotel.utils.Alertas;
 import dev.codegets.project.hotel.utils.CalculoReserva;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.DateCell;
+import javafx.util.Callback;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -51,6 +54,33 @@ public class ReservasController {
         dpFechaFin.valueProperty().addListener((obs, oldV, newV) -> calcularMonto());
         cmbHabitacion.valueProperty().addListener((obs, oldV, newV) -> calcularMonto());
         chkPagaTotal.selectedProperty().addListener((obs, oldV, newV) -> calcularMonto());
+
+        dpFechaInicio.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+            @Override
+            public DateCell call(DatePicker picker) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setDisable(empty || item.isBefore(LocalDate.now()));
+                    }
+                };
+            }
+        });
+
+        dpFechaFin.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+            @Override
+            public DateCell call(DatePicker picker) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        LocalDate min = dpFechaInicio.getValue() != null ? dpFechaInicio.getValue() : LocalDate.now();
+                        setDisable(empty || item.isBefore(min));
+                    }
+                };
+            }
+        });
     }
 
     @FXML

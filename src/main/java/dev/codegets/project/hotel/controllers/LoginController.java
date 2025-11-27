@@ -13,6 +13,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.stage.Screen;
+import javafx.geometry.Rectangle2D;
 
 import java.io.IOException;
 
@@ -81,6 +83,28 @@ public class LoginController {
             stage.setMaximized(true);
             stage.show();
             Platform.runLater(() -> stage.setMaximized(true));
+            Platform.runLater(() -> {
+                Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+                stage.setX(bounds.getMinX());
+                stage.setY(bounds.getMinY());
+                stage.setWidth(bounds.getWidth());
+                stage.setHeight(bounds.getHeight());
+                stage.setMaximized(true);
+            });
+            stage.focusedProperty().addListener((obs, wasFocused, isFocused) -> {
+                if (isFocused) {
+                    Platform.runLater(() -> {
+                        Rectangle2D b = Screen.getPrimary().getVisualBounds();
+                        if (stage.getWidth() < b.getWidth() || stage.getHeight() < b.getHeight()) {
+                            stage.setX(b.getMinX());
+                            stage.setY(b.getMinY());
+                            stage.setWidth(b.getWidth());
+                            stage.setHeight(b.getHeight());
+                            stage.setMaximized(true);
+                        }
+                    });
+                }
+            });
 
         } catch (IOException e) {
             Alertas.mostrarError("Error de Aplicación", "No se pudo cargar la ventana principal.");
