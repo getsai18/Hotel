@@ -73,15 +73,39 @@ public class CheckInController {
         LocalDateTime fechaLlegada = LocalDateTime.now();
         LocalTime horaLlegada = fechaLlegada.toLocalTime();
 
+        // Obtener las fechas
+        java.time.LocalDate fechaReserva = reservaActual.getFechaInicio().toLocalDate();
+        java.time.LocalDate fechaActual = fechaLlegada.toLocalDate();
+
+        // 1. Verificar si la llegada es ANTICIPADA (Business Validation)
+        if (fechaActual.isBefore(fechaReserva)) {
+            long diasAnticipacion = java.time.temporal.ChronoUnit.DAYS.between(fechaActual, fechaReserva);
+
+            // Mostrar ADVERTENCIA
+            Alertas.mostrarInformacion("Llegada Anticipada",
+                    "El cliente ha llegado " + diasAnticipacion +
+                            " días antes. La reserva comienza el " + fechaReserva +
+                            ".\n\nSi procede con el Check-in ahora, se le cobrarán las noches extra.");
+
+            // Opcional: Podrías deshabilitar el botón si no quieres permitir esto sin intervención
+            // btnRealizarCheckin.setDisable(true);
+            // return;
+
+            // NOTA: Si llegamos aquí, permitimos continuar, pero el gerente debe estar avisado.
+        }
+        // Fin de la validación anticipada
+
+
         // Calcular recargo por llegada tarde (usando el precio base de la habitación)
+        // La lógica de CalculoReserva.java debe asegurar que si llega antes de la fecha (y pasó la validación de arriba), no hay recargo.
         recargoPorTarde = CalculoReserva.calcularRecargoCheckInTarde(
-                reservaActual.getFechaInicio().toLocalDate(), horaLlegada, habitacion.getPrecioBase()
+                fechaReserva, horaLlegada, habitacion.getPrecioBase()
         );
 
         String detalles = String.format(
                 "Habitación: %d (%s)\nFecha Reservada: %s\nFecha Actual: %s\nCheck-in Estándar: %s\nMonto Total Reserva: %.2f",
                 habitacion.getNumero(), habitacion.getTipo(),
-                reservaActual.getFechaInicio().toLocalDate(), fechaLlegada.toLocalDate(),
+                fechaReserva, fechaActual,
                 CalculoReserva.getHoraEstandar("HORA_CHECKIN"), reservaActual.getMontoTotal()
         );
         lblDetallesReserva.setText(detalles);
@@ -95,6 +119,7 @@ public class CheckInController {
         }
         btnRealizarCheckin.setDisable(false);
     }
+    // src/controllers/CheckInController.java
 
     @FXML
     private void handleRealizarCheckin() {
@@ -105,13 +130,44 @@ public class CheckInController {
 
         LocalDateTime now = LocalDateTime.now();
 
+        // Datos de la habitación y fechas
+        Optional<Habitacion> habOpt = habitacionDao.getById(reservaActual.getIdHabitacion());
+        if (habOpt.isEmpty()) {
+            Alertas.mostrarError("Error", "No se encontraron detalles de la habitación.");
+            return;
+        }
+        Habitacion habitacion = habOpt.get();
+
+        // ----------------------------------------------------
+        // LÓGICA DE COBRO POR LLEGADA ANTICIPADA
+        // ----------------------------------------------------
+        double costoAnticipado = CalculoReserva.calcularCostoAnticipado(
+                now.toLocalDate(),
+                reservaActual.getFechaInicio().toLocalDate(),
+                habitacion.getPrecioBase()
+        );
+
+        // Si hay noches anticipadas, las registramos como un pago de RECARGO.
+        if (costoAnticipado > 0) {
+            Pago pagoAnticipado = new Pago(0, reservaActual.getIdReserva(), costoAnticipado, "RECARGO", now,
+                    "Cobro por " + (int)(costoAnticipado / habitacion.getPrecioBase()) + " noches de llegada anticipada.");
+            pagoDao.create(pagoAnticipado);
+
+            Alertas.mostrarInformacion("Cobro Anticipado",
+                    String.format("Se ha cobrado un RECARGO de %.2f por noches anticipadas (llegada en %s).",
+                            costoAnticipado, now.toLocalDate()));
+
+            // Nota: La fecha de inicio de la reserva NO se modifica, solo se factura el adelanto.
+        }
+        // ----------------------------------------------------
+
         // 1. Registrar Check-in real en la reserva
         if (!reservaDao.updateCheckIn(reservaActual.getIdReserva(), now)) {
             Alertas.mostrarError("Error de BD", "Fallo al registrar la hora de Check-in.");
             return;
         }
 
-        // 2. Registrar el recargo si aplica
+        // 2. Registrar el recargo por HORA TARDÍA (si aplica en la fecha reservada)
         if (recargoPorTarde > 0) {
             Pago pagoRecargo = new Pago(0, reservaActual.getIdReserva(), recargoPorTarde, "RECARGO", now,
                     "Recargo por llegada después del Check-in estándar.");
@@ -119,7 +175,7 @@ public class CheckInController {
             Alertas.mostrarInformacion("Check-in Exitoso",
                     String.format("Check-in de la Reserva #%d completado. Recargo de %.2f registrado.", reservaActual.getIdReserva(), recargoPorTarde));
         } else {
-            Alertas.mostrarInformacion("Check-in Exitoso", "Check-in de la Reserva #" + reservaActual.getIdReserva() + " completado sin recargos.");
+            Alertas.mostrarInformacion("Check-in Exitoso", "Check-in de la Reserva #" + reservaActual.getIdReserva() + " completado sin recargos adicionales.");
         }
 
         // 3. Actualizar el estado de la habitación a OCUPADA

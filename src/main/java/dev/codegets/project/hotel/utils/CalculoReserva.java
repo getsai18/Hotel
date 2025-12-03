@@ -69,18 +69,26 @@ public class CalculoReserva {
             return 0.00;
         }
 
-        double horaStd = horaConfig.get().getValor(); // Ej: 15.00
-        int horaStdInt = (int) horaStd;
-        int minutoStdInt = (int) ((horaStd - horaStdInt) * 60);
+        LocalDate fechaActual = LocalDate.now();
+        LocalTime horaEstandar = LocalTime.of((int) horaConfig.get().getValor(), (int) Math.round((horaConfig.get().getValor() - (int) horaConfig.get().getValor()) * 60));
 
-        LocalTime horaEstandar = LocalTime.of(horaStdInt, minutoStdInt);
-
-        // La penalización aplica si la llegada es en un día posterior al check-in
-        // O si la hora de llegada es posterior a la hora estándar
-        if (horaLlegada.isAfter(horaEstandar)) {
-            // El recargo se aplica sobre el precio base de la noche
-            return montoBasePorNoche * recargoConfig.get().getValor();
+        // 1. Si la llegada es ANTES del día reservado (ej., llega el 5 para el 8), NO hay recargo por retraso.
+        if (fechaActual.isBefore(fechaReserva)) {
+            return 0.00;
         }
+
+        // 2. Si la llegada es el DÍA RESERVADO (o después), aplicamos la lógica de retraso por hora.
+        if (fechaActual.isEqual(fechaReserva)) {
+
+            // Aplica recargo solo si es el día correcto Y la hora es posterior a la estándar (15:00).
+            if (horaLlegada.isAfter(horaEstandar)) {
+                // El recargo se aplica sobre el precio base de la noche
+                return montoBasePorNoche * recargoConfig.get().getValor();
+            }
+        }
+
+        // Nota: Las llegadas en días posteriores (No-Show) se manejan con un estado diferente
+        // y se penalizan por el módulo de Check-out, no con este recargo simple.
 
         return 0.00;
     }
@@ -107,6 +115,20 @@ public class CalculoReserva {
         int minutoStdInt = (int) Math.round((horaStd - horaStdInt) * 60);
 
         return LocalTime.of(horaStdInt, minutoStdInt);
+    }
+
+
+
+    public static double calcularCostoAnticipado(LocalDate fechaLlegadaReal, LocalDate fechaInicioReserva, double precioBaseNoche) {
+        if (!fechaLlegadaReal.isBefore(fechaInicioReserva)) {
+            return 0.0;
+        }
+
+        long nochesAnticipadas = java.time.temporal.ChronoUnit.DAYS.between(fechaLlegadaReal, fechaInicioReserva);
+
+        // El check-in ocurre usualmente a las 3:00 PM del día reservado.
+        // Si llega el día 2 para el día 4, son 2 noches extra (noche del 2 al 3, y del 3 al 4).
+        return nochesAnticipadas * precioBaseNoche;
     }
 
 }

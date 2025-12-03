@@ -158,17 +158,32 @@ public class ReservasController {
                 pagoDao.create(pagoReserva);
             }
 
-            // 5. Actualizar estado de la habitación (RESERVADA)
-            // NOTA: La habitación no necesita cambiar de estado en la tabla 'habitaciones',
-            // el estado de 'RESERVADA' se deduce de la tabla 'reservas' (ACTIVA sin check-in).
-            // Sin embargo, para fines visuales en el módulo de Habitaciones:
-            // habitacionDao.updateEstado(habitacion.getIdHabitacion(), "RESERVADA");
+            habitacionDao.updateEstado(habitacion.getIdHabitacion(), "RESERVADA");
+
 
             Alertas.mostrarInformacion("Reserva Creada", "Reserva #" + idReservaOpt.get() + " creada con éxito. Monto total: " + montoTotal);
             // Limpiar campos...
+            limpiarCampos();
+
         } else {
             Alertas.mostrarError("Error", "Fallo al crear la reserva en la base de datos.");
         }
     }
 
+
+    private void limpiarCampos() {
+        // Limpiar campos del Cliente
+        txtNombreCliente.clear();
+        txtTelefonoCliente.clear();
+        txtCorreoCliente.clear();
+
+        // Limpiar campos de la Reserva
+        dpFechaInicio.setValue(null);
+        dpFechaFin.setValue(null);
+        cmbHabitacion.getSelectionModel().clearSelection();
+        chkPagaTotal.setSelected(false);
+
+        // Resetear el Monto
+        lblMontoCalculado.setText("0.00");
+    }
 }

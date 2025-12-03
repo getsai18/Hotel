@@ -1,78 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.ReservasController">
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.ReservasController">
     <content>
         <VBox prefHeight="700.0" prefWidth="850.0" spacing="20.0" styleClass="content-area-module">
             <padding>
                 <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
             </padding>
 
-            <Label text="🗓️ Módulo de Reservas" styleClass="module-title" />
+            <Label styleClass="module-title" text="🗓️ Módulo de Reservas" />
             <Separator />
 
             <VBox spacing="15.0" styleClass="card-panel">
-                <Label text="1. Datos del Cliente" styleClass="card-section-title" />
+                <Label styleClass="card-section-title" text="1. Datos del Cliente" />
 
                 <GridPane hgap="20.0" vgap="15.0">
-                    <Label text="Nombre Completo:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="label-form" />
-                    <TextField fx:id="txtNombreCliente" promptText="Nombre del titular de la reserva" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="text-field-clean" />
+                    <Label styleClass="label-form" text="Nombre Completo:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <TextField fx:id="txtNombreCliente" promptText="Nombre del titular de la reserva" styleClass="text-field-clean" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                    <Label text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="label-form" />
-                    <TextField fx:id="txtTelefonoCliente" promptText="Teléfono de contacto" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="text-field-clean" />
+                    <Label styleClass="label-form" text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <TextField fx:id="txtTelefonoCliente" promptText="Teléfono de contacto" styleClass="text-field-clean" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                    <Label text="Correo Electrónico:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="label-form" />
-                    <TextField fx:id="txtCorreoCliente" promptText="Correo para confirmación" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="text-field-clean" />
+                    <Label styleClass="label-form" text="Correo Electrónico:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <TextField fx:id="txtCorreoCliente" promptText="Correo para confirmación" styleClass="text-field-clean" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
                 </GridPane>
             </VBox>
             <Separator />
 
             <VBox spacing="15.0" styleClass="card-panel">
-                <Label text="2. Detalles de la Estancia" styleClass="card-section-title" />
+                <Label styleClass="card-section-title" text="2. Detalles de la Estancia" />
 
                 <GridPane hgap="20.0" vgap="15.0">
-                    <Label text="Check-in (Día de llegada):" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="label-form" />
-                    <DatePicker fx:id="dpFechaInicio" promptText="Fecha de inicio" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="date-picker-clean" />
+                    <Label styleClass="label-form" text="Check-in (Día de llegada):" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <DatePicker fx:id="dpFechaInicio" promptText="Fecha de inicio" styleClass="date-picker-clean" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                    <Label text="Check-out (Día de salida):" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="label-form" />
-                    <DatePicker fx:id="dpFechaFin" promptText="Fecha de fin" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="date-picker-clean" />
+                    <Label styleClass="label-form" text="Check-out (Día de salida):" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <DatePicker fx:id="dpFechaFin" promptText="Fecha de fin" styleClass="date-picker-clean" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                    <Label text="Habitación Disponible:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="label-form" />
-                    <ComboBox fx:id="cmbHabitacion" prefWidth="250.0" promptText="Selecciona una habitación" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="combo-box-clean" />
-
-                    <Button text="Filtrar Disponibilidad (opcional)" onAction="#handleBuscarDisponibilidad" GridPane.columnIndex="2" GridPane.rowIndex="2" styleClass="btn-secondary-action" />
+                    <Label styleClass="label-form" text="Habitación Disponible:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <ComboBox fx:id="cmbHabitacion" prefWidth="250.0" promptText="Selecciona una habitación" styleClass="combo-box-clean" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
                 </GridPane>
             </VBox>
             <Separator />
 
             <VBox spacing="15.0" styleClass="card-panel">
-                <Label text="3. Cálculo y Confirmación" styleClass="card-section-title" />
+                <Label styleClass="card-section-title" text="3. Cálculo y Confirmación" />
 
                 <HBox alignment="CENTER_LEFT" spacing="30.0">
-                    <Label text="Monto Total Calculado:" styleClass="label-bold-large" />
-                    <Label fx:id="lblMontoCalculado" text="0.00" styleClass="label-price-total" />
-                    <Button text="Recalcular Monto" onAction="#calcularMonto" styleClass="btn-secondary-action" />
+                    <Label styleClass="label-bold-large" text="Monto Total Calculado:" />
+                    <Label fx:id="lblMontoCalculado" styleClass="label-price-total" text="0.00" />
+                    <Button onAction="#calcularMonto" styleClass="btn-secondary-action" text="Recalcular Monto" />
                 </HBox>
 
                 <VBox spacing="5.0">
-                    <CheckBox fx:id="chkPagaTotal" text="El cliente paga el monto TOTAL al reservar (Aplicar descuento anticipado)" styleClass="checkbox-style" />
-                    <Label text="Nota: La habitación se marcará como Reservada si la reserva se crea." styleClass="label-note" />
+                    <CheckBox fx:id="chkPagaTotal" styleClass="checkbox-style" text="El cliente paga el monto TOTAL al reservar (Aplicar descuento anticipado)" />
+                    <Label styleClass="label-note" text="Nota: La habitación se marcará como Reservada si la reserva se crea." />
                 </VBox>
 
-                <Button text="CREAR RESERVA" onAction="#handleCrearReserva" prefWidth="300.0" styleClass="btn-accent-action-special" />
+                <Button onAction="#handleCrearReserva" prefWidth="300.0" styleClass="btn-accent-action-special" text="CREAR RESERVA" />
             </VBox>
         </VBox>
     </content>
