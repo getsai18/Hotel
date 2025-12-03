@@ -120,7 +120,24 @@ public class ReservasController {
 
     @FXML
     private void handleCrearReserva() {
-        // Validaciones básicas de campos...
+        String nombre = txtNombreCliente.getText() != null ? txtNombreCliente.getText().trim() : "";
+        String telefono = txtTelefonoCliente.getText() != null ? txtTelefonoCliente.getText().replaceAll("\\s+", "") : "";
+        String correo = txtCorreoCliente.getText() != null ? txtCorreoCliente.getText().trim() : "";
+
+        if (nombre.isEmpty() || telefono.isEmpty() || correo.isEmpty()) {
+            Alertas.mostrarError("Datos incompletos", "Nombre, teléfono y correo son obligatorios para realizar la reserva.");
+            return;
+        }
+
+        if (!correo.contains("@")) {
+            Alertas.mostrarError("Correo inválido", "El correo debe contener el símbolo '@'.");
+            return;
+        }
+
+        if (!telefono.matches("\\d{10}")) {
+            Alertas.mostrarError("Teléfono inválido", "El número debe tener exactamente 10 dígitos.");
+            return;
+        }
 
         // 1. Obtener datos y calcular monto final
         Habitacion habitacion = cmbHabitacion.getValue();
@@ -137,7 +154,7 @@ public class ReservasController {
 
         // 2. Buscar o crear Cliente
         Optional<Cliente> clienteOpt = clienteDao.findOrCreate(
-                txtNombreCliente.getText(), txtTelefonoCliente.getText(), txtCorreoCliente.getText());
+                nombre, telefono, correo);
 
         if (clienteOpt.isEmpty()) {
             Alertas.mostrarError("Error", "No se pudo registrar el cliente.");
