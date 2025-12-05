@@ -24,7 +24,7 @@ public class HabitacionesController {
     @FXML private TableColumn<Habitacion, String> colEstado;
     @FXML private TableColumn<Habitacion, Double> colPrecio;
     @FXML private Label lblTotalHabitaciones;
-    @FXML private Button btnAsignarDirecto; // Botón para asignación directa
+
 
     private final HabitacionDao habitacionDao = new HabitacionDao();
     private ObservableList<Habitacion> listaHabitaciones;
@@ -64,8 +64,6 @@ public class HabitacionesController {
 
         cargarHabitaciones(); // Aseguramos que los datos se carguen después de configurar la tabla
 
-        // Lógica de asignación directa (EXISTENTE)
-        btnAsignarDirecto.setOnAction(event -> handleAsignacionDirecta());
     }
 
     private void cargarHabitaciones() {
@@ -81,26 +79,5 @@ public class HabitacionesController {
     private void handleRefrescar() {
         cargarHabitaciones();
     }
-    @FXML
-    private void handleAsignacionDirecta() {
-        Habitacion selected = tblHabitaciones.getSelectionModel().getSelectedItem();
 
-        if (selected == null) {
-            Alertas.mostrarError("Error", "Selecciona una habitación para asignación directa.");
-            return;
-        }
-
-        if (!selected.getEstado().equals("DISPONIBLE")) {
-            Alertas.mostrarError("Error", "Solo se pueden asignar habitaciones DISPONIBLES directamente.");
-            return;
-        }
-
-        // NOTA: La lógica de asignación directa requiere capturar datos del cliente
-        // y crear una reserva/ocupación de inmediato (sin fechas de reserva futuras),
-        // lo cual es una tarea compleja que se integra mejor con el Check-in o Reservas.
-        // Aquí solo pondremos un mensaje y lo implementaremos en CheckInController.
-        Alertas.mostrarInformacion("En Progreso",
-                "La asignación directa se gestionará en el módulo de Check-in. " +
-                        "La habitación " + selected.getNumero() + " está DISPONIBLE.");
-    }
 }

@@ -15,14 +15,7 @@ import java.util.Optional;
 public class CalculoReserva {
     private static final ConfiguracionDao configDao = new ConfiguracionDao();
 
-    /**
-     * Calcula el monto total de una reserva.
-     * @param habitacion La habitación seleccionada.
-     * @param fechaInicio Fecha y hora de inicio de la estancia.
-     * @param fechaFin Fecha y hora de fin de la estancia.
-     * @param pagaAnticipada Indica si se aplica el descuento por reserva anticipada.
-     * @return Monto total calculado.
-     */
+
     public static double calcularMontoTotal(Habitacion habitacion, LocalDateTime fechaInicio, LocalDateTime fechaFin, boolean pagaAnticipada) {
 
         // 1. Calcular días de estancia
@@ -54,12 +47,7 @@ public class CalculoReserva {
         return montoBase - descuento;
     }
 
-    /**
-     * Valida si la hora de check-in actual aplica recargo.
-     * @param fechaReserva La fecha de inicio de la reserva (solo día).
-     * @param horaLlegada La hora real en que llegó el cliente.
-     * @return Recargo a aplicar (0.00 si no aplica).
-     */
+
     public static double calcularRecargoCheckInTarde(LocalDate fechaReserva, LocalTime horaLlegada, double montoBasePorNoche) {
         Optional<Configuracion> horaConfig = configDao.getParametro("HORA_CHECKIN");
         Optional<Configuracion> recargoConfig = configDao.getParametro("PORCENTAJE_RECARGO_CHECKIN_TARDE");
@@ -93,12 +81,6 @@ public class CalculoReserva {
         return 0.00;
     }
 
-    /**
-     * Determina si la reserva es anticipada (para descuento).
-     * Podríamos definirlo como "más de 7 días antes de la fecha de check-in".
-     * Usamos una lógica simple: si el cliente paga en el momento de reservar.
-     * En este caso, simplemente devolvemos el valor 'pagaAnticipada' proporcionado por el usuario.
-     */
     public static boolean esReservaAnticipada(boolean pagoAlReservar) {
         return pagoAlReservar;
     }

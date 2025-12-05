@@ -2,6 +2,7 @@ package dev.codegets.project.hotel.controllers;
 import dev.codegets.project.hotel.models.*;
 import dev.codegets.project.hotel.models.dao.*;
 import dev.codegets.project.hotel.utils.Alertas;
+import dev.codegets.project.hotel.utils.CalculoReserva;
 import dev.codegets.project.hotel.utils.ConexionDB;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -215,7 +216,7 @@ public class CheckOutController {
             e.printStackTrace();
         }
     }
-    // Método para manejar devoluciones/cancelaciones (REQUISITO: Si cliente no llega, devolver parte)
+
     @FXML
     private void handleGestionPagos() {
         TextInputDialog dialog = new TextInputDialog();

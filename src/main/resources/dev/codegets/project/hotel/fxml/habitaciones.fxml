@@ -31,7 +31,6 @@
 
                 <HBox spacing="10.0">
                     <Button text="Refrescar" onAction="#handleRefrescar" styleClass="btn-secondary-action" />
-                    <Button fx:id="btnAsignarDirecto" text="Asignación Directa" styleClass="btn-accent-action-special" onAction="#handleAsignacionDirecta" />
                 </HBox>
             </HBox>
 
