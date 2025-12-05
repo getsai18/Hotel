@@ -191,4 +191,36 @@ public class ReservaDao {
         }
     }
 
+
+    public List<Reserva> getReservasPendientesCheckIn() {
+        List<Reserva> lista = new ArrayList<>();
+        // Hacemos JOIN para obtener el nombre del cliente
+        String sql = "SELECT r.*, c.nombre as nombre_cliente FROM reservas r " +
+                "JOIN clientes c ON r.id_cliente = c.id_cliente " +
+                "WHERE r.estado = 'ACTIVA' AND r.checkin_real IS NULL";
+
+        try (Connection conn = ConexionDB.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Reserva r = new Reserva(
+                        rs.getInt("id_reserva"),
+                        rs.getInt("id_cliente"),
+                        rs.getInt("id_habitacion"),
+                        rs.getTimestamp("fecha_inicio").toLocalDateTime(),
+                        rs.getTimestamp("fecha_fin").toLocalDateTime(),
+                        rs.getString("estado"),
+                        rs.getDouble("monto_total"),
+                        null, null
+                );
+                // Asignamos el nombre del cliente recuperado
+                r.setNombreCliente(rs.getString("nombre_cliente"));
+                lista.add(r);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
 }
