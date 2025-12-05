@@ -62,4 +62,33 @@ public class ClienteDao {
         return Optional.empty(); // Falla si no se encuentra ni se puede crear
     }
 
+
+    public Optional<Cliente> getById(int idCliente) {
+        String sql = "SELECT * FROM clientes WHERE id_cliente = ? LIMIT 1";
+
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idCliente);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(new Cliente(
+                            rs.getInt("id_cliente"),
+                            rs.getString("nombre"),
+                            rs.getString("telefono"),
+                            rs.getString("correo")
+                    ));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return Optional.empty();
+    }
+
+
+
 }

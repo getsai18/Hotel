@@ -44,23 +44,25 @@
 
                 <GridPane hgap="20.0" vgap="15.0">
                     <Label styleClass="label-form" text="Check-in (Día de llegada):" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                    <DatePicker fx:id="dpFechaInicio" promptText="Fecha de inicio" styleClass="date-picker-clean" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                    <DatePicker fx:id="dpFechaInicio" promptText="Fecha de inicio" styleClass="date-picker-clean" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
                     <Label styleClass="label-form" text="Check-out (Día de salida):" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                    <DatePicker fx:id="dpFechaFin" promptText="Fecha de fin" styleClass="date-picker-clean" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                    <DatePicker fx:id="dpFechaFin" promptText="Fecha de fin" styleClass="date-picker-clean" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                     <Label styleClass="label-form" text="Habitación Disponible:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
                     <ComboBox fx:id="cmbHabitacion" prefWidth="250.0" promptText="Selecciona una habitación" styleClass="combo-box-clean" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-               <columnConstraints>
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-               </rowConstraints>
+                    <columnConstraints>
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
                 </GridPane>
             </VBox>
             <Separator />
@@ -69,17 +71,25 @@
                 <Label styleClass="card-section-title" text="3. Cálculo y Confirmación" />
 
                 <HBox alignment="CENTER_LEFT" spacing="30.0">
-                    <Label styleClass="label-bold-large" text="Monto Total Calculado:" />
+                    <Label text="Monto Total Calculado:" styleClass="label-bold-large" />
                     <Label fx:id="lblMontoCalculado" styleClass="label-price-total" text="0.00" />
-                    <Button onAction="#calcularMonto" styleClass="btn-secondary-action" text="Recalcular Monto" />
                 </HBox>
 
-                <VBox spacing="5.0">
-                    <CheckBox fx:id="chkPagaTotal" styleClass="checkbox-style" text="El cliente paga el monto TOTAL al reservar (Aplicar descuento anticipado)" />
-                    <Label styleClass="label-note" text="Nota: La habitación se marcará como Reservada si la reserva se crea." />
+                <VBox spacing="10.0" styleClass="card-panel-thin">
+                    <Label fx:id="lblPagoMinimo" text="Pago Mínimo Requerido: 0.00 (70%)" styleClass="label-bold-large" />
+
+                    <GridPane hgap="20.0" vgap="10.0">
+                        <Label text="Monto de Pago Ahora:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="label-form" />
+                        <TextField fx:id="txtMontoPago" promptText="0.00" styleClass="text-field-clean" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                        <CheckBox fx:id="chkPagaTotal" text="Aplicar Descuento por Pago Total Adelantado" styleClass="checkbox-style" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    </GridPane>
                 </VBox>
 
-                <Button onAction="#handleCrearReserva" prefWidth="300.0" styleClass="btn-accent-action-special" text="CREAR RESERVA" />
+                <Separator/>
+
+                <Button onAction="#handleCrearReserva" prefWidth="300.0" styleClass="btn-accent-action-special" text="CREAR RESERVA Y REGISTRAR PAGO" />
+
             </VBox>
         </VBox>
     </content>

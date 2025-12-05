@@ -31,4 +31,35 @@ public class PagoDao {
         }
     }
 
+    // src/models/dao/PagoDao.java (Método Final)
+
+    /**
+     * Calcula la suma neta total de pagos (Ingresos - Egresos/Reembolsos)
+     * realizados para una reserva específica.
+     */
+    // src/models/dao/PagoDao.java
+
+    /**
+     * Calcula SOLO los pagos abonados al costo base de la reserva (Tipo 'RESERVA').
+     * Ignora recargos y penalizaciones porque son costos adicionales.
+     */
+    public double getTotalPagadoByReserva(int idReserva) {
+        // CORRECCIÓN: Solo sumar pagos de tipo 'RESERVA'
+        String sql = "SELECT SUM(monto) FROM pagos WHERE id_reserva = ? AND tipo = 'RESERVA'";
+
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idReserva);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+
 }

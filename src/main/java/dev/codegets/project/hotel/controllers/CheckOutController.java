@@ -1,12 +1,6 @@
 package dev.codegets.project.hotel.controllers;
-import dev.codegets.project.hotel.models.Configuracion;
-import dev.codegets.project.hotel.models.Habitacion;
-import dev.codegets.project.hotel.models.Pago;
-import dev.codegets.project.hotel.models.Reserva;
-import dev.codegets.project.hotel.models.dao.ConfiguracionDao;
-import dev.codegets.project.hotel.models.dao.HabitacionDao;
-import dev.codegets.project.hotel.models.dao.PagoDao;
-import dev.codegets.project.hotel.models.dao.ReservaDao;
+import dev.codegets.project.hotel.models.*;
+import dev.codegets.project.hotel.models.dao.*;
 import dev.codegets.project.hotel.utils.Alertas;
 import dev.codegets.project.hotel.utils.ConexionDB;
 import javafx.fxml.FXML;
@@ -32,6 +26,8 @@ public class CheckOutController {
     @FXML private Label lblTotalPendiente;
     @FXML private Label lblPenalizacionInfo;
     @FXML private Button btnFinalizarCheckOut;
+    private final ClienteDao clienteDao = new ClienteDao();
+
 
     private final ReservaDao reservaDao = new ReservaDao();
     private final PagoDao pagoDao = new PagoDao();
@@ -76,64 +72,128 @@ public class CheckOutController {
         }
     }
 
+    // src/controllers/CheckOutController.java
+
     private void mostrarDetalles() {
-        // Asumiendo que podemos obtener el cliente de la reserva
-        // Optional<Cliente> clienteOpt = clienteDao.getById(ocupacionActual.getIdCliente());
-        // lblClienteInfo.setText(clienteOpt.map(Cliente::getNombre).orElse("N/A"));
+        // Asumimos que los DAOs (clienteDao, pagoDao, etc.) están declarados.
+
+        // ============================
+        // 1. Mostrar información general (Existente)
+        // ============================
+        Optional<Cliente> clienteOpt = clienteDao.getById(ocupacionActual.getIdCliente());
+
+        if (clienteOpt.isPresent()) {
+            Cliente c = clienteOpt.get();
+            lblClienteInfo.setText(c.getNombre());
+        } else {
+            lblClienteInfo.setText("Cliente no encontrado");
+        }
 
         lblReservaID.setText(String.valueOf(ocupacionActual.getIdReserva()));
-        lblFechaSalidaEstimada.setText(ocupacionActual.getFechaFin().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        lblFechaSalidaEstimada.setText(
+                ocupacionActual.getFechaFin().format(
+                        java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+                )
+        );
 
+        // ============================
+        // 2. Calcular penalización por check-out tardío (Existente)
+        // ============================
         LocalDateTime horaSalidaReal = LocalDateTime.now();
-
-        // 1. Calcular Penalización por Check-out tardío / Día extra
         double precioNoche = habitacionOcupada.getPrecioBase();
+        penalizacionTotal = 0.0; // Resetear antes del cálculo
 
         if (horaSalidaReal.isAfter(ocupacionActual.getFechaFin())) {
-            // El cliente se fue tarde. Calculamos si es penalización o día extra.
             long horasTarde = ChronoUnit.HOURS.between(ocupacionActual.getFechaFin(), horaSalidaReal);
+            // ... (Lógica para calcular penalizacionTotal basada en horasTarde) ...
 
-            // Si pasan más de X horas (ej. 6 horas), se cobra un día extra. Si no, penalización (ej. 50% de la noche).
+            Optional<Configuracion> penalizacionConfig = configDao.getParametro("PORCENTAJE_RECARGO_CHECKIN_TARDE");
+            double porcentaje = penalizacionConfig.map(Configuracion::getValor).orElse(0.0);
+
             if (horasTarde > 6) {
-                penalizacionTotal = precioNoche; // Día extra
+                penalizacionTotal = precioNoche; // Día extra completo
                 lblPenalizacionInfo.setText(String.format("⚠️ DÍA EXTRA: Cliente excedió por %d horas. Cobro por día extra (%.2f).", horasTarde, penalizacionTotal));
             } else {
-                Optional<Configuracion> penalizacionConfig = configDao.getParametro("PORCENTAJE_RECARGO_CHECKIN_TARDE"); // Usamos el mismo porcentaje para simplificar
-                double porcentaje = penalizacionConfig.map(Configuracion::getValor).orElse(0.0);
                 penalizacionTotal = precioNoche * porcentaje;
-                lblPenalizacionInfo.setText(String.format("⚠️ PENALIZACIÓN TARDÍA: %.2f (%.0f%% de noche).", penalizacionTotal, porcentaje * 100));
+                lblPenalizacionInfo.setText(String.format("⚠️ PENALIZACIÓN TARDÍA: %.2f (%.0f%% de la noche).", penalizacionTotal, porcentaje * 100));
             }
+
             lblPenalizacionInfo.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+
         } else {
             lblPenalizacionInfo.setText("✅ Check-out a tiempo. Sin penalización.");
             lblPenalizacionInfo.setStyle("-fx-text-fill: green;");
         }
 
-        // Asumiendo 0.00 pendiente si la reserva se pagó totalmente al inicio,
-        // o si los pagos se gestionan en otro módulo.
-        // Aquí simplificamos el total pendiente al valor de la penalización.
-        lblTotalPendiente.setText(String.format("%.2f", penalizacionTotal));
+        // ============================
+        // 3. CÁLCULO DEL SALDO PENDIENTE TOTAL
+        // ============================
+        double montoTotalReserva = ocupacionActual.getMontoTotal();
+
+        // **USO DEL DAO CORREGIDO**
+        double totalPagadoNeto = pagoDao.getTotalPagadoByReserva(ocupacionActual.getIdReserva());
+
+        double saldoEstanciaPendiente = montoTotalReserva - totalPagadoNeto;
+
+        // Sumamos el saldo pendiente de la estancia + cualquier penalización
+        double totalACobrar = saldoEstanciaPendiente + penalizacionTotal;
+
+        // 4. Actualizar Label
+        lblTotalPendiente.setText(String.format("%.2f", totalACobrar));
+
+        // Cambiamos el color si el saldo es alto
+        if (totalACobrar > 0.01) {
+            lblTotalPendiente.setStyle("-fx-font-weight: bold; -fx-font-size: 18; -fx-text-fill: red;");
+        } else {
+            lblTotalPendiente.setStyle("-fx-font-weight: bold; -fx-font-size: 18; -fx-text-fill: green;");
+        }
+
         btnFinalizarCheckOut.setDisable(false);
     }
+
+
+    // src/controllers/CheckOutController.java
+
+    // src/controllers/CheckOutController.java (Dentro de handleFinalizarCheckOut)
+
+    // src/controllers/CheckOutController.java
 
     @FXML
     private void handleFinalizarCheckOut() {
         if (ocupacionActual == null) return;
 
-        // Iniciar Transacción (TPS)
+        // Nota: El totalACobrar ya fue calculado en mostrarDetalles()
+        // Lo recalculamos aquí para seguridad antes de la transacción.
+        double montoTotalReserva = ocupacionActual.getMontoTotal();
+        double totalPagado = pagoDao.getTotalPagadoByReserva(ocupacionActual.getIdReserva());
+        double saldoEstanciaPendiente = montoTotalReserva - totalPagado;
+
+        // La variable penalizacionTotal es una variable de clase y ya contiene el cargo por salida tardía.
+        double totalACobrar = saldoEstanciaPendiente + penalizacionTotal;
+
         try (Connection conn = ConexionDB.getConnection()) {
             conn.setAutoCommit(false);
-
             LocalDateTime now = LocalDateTime.now();
 
-            // 1. Registrar Penalización/Día extra si aplica
-            if (penalizacionTotal > 0) {
-                String tipo = (penalizacionTotal == habitacionOcupada.getPrecioBase()) ? "DIA_EXTRA" : "PENALIZACION";
-                Pago pagoPenalizacion = new Pago(0, ocupacionActual.getIdReserva(), penalizacionTotal, tipo, now, "Cobro por check-out tardío.");
-                pagoDao.create(pagoPenalizacion); // Esto debe usar la conexión transaccional si se cambia el DAO
+            // ----------------------------------------------------
+            // PASO 1: REGISTRAR PAGO FINAL (Cubre Saldo + Penalizaciones)
+            // ----------------------------------------------------
+
+            if (totalACobrar > 0.01) {
+                // src/controllers/CheckOutController.java (Línea ~125)
+
+                Pago pagoFinal = new Pago(0, ocupacionActual.getIdReserva(), totalACobrar, "RESERVA", now,
+                        "Pago final de estancia y cargos pendientes.");
+                pagoDao.create(pagoFinal); // Asumimos que el DAO registra la transacción con éxito
+            } else {
+                // Si el saldo es cero o negativo (por reembolso), no se registra un pago final.
             }
 
-            // 2. Actualizar Reserva a FINALIZADA y registrar Check-out real
+            // ----------------------------------------------------
+            // PASO 2: CERRAR RESERVA Y LIBERAR HABITACIÓN
+            // ----------------------------------------------------
+
+            // 1. Actualizar Reserva a FINALIZADA y registrar Check-out real
             String sqlReserva = "UPDATE reservas SET estado = 'FINALIZADA', checkout_real = ? WHERE id_reserva = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sqlReserva)) {
                 stmt.setTimestamp(1, Timestamp.valueOf(now));
@@ -141,22 +201,20 @@ public class CheckOutController {
                 stmt.executeUpdate();
             }
 
-            // 3. Actualizar estado de la habitación a DISPONIBLE
-            habitacionDao.updateEstado(habitacionOcupada.getIdHabitacion(), "DISPONIBLE"); // Esto debe usar la conexión transaccional si se cambia el DAO
+            // 2. Actualizar estado de la habitación
+            habitacionDao.updateEstado(habitacionOcupada.getIdHabitacion(), "DISPONIBLE");
 
-            conn.commit(); // Commit de la Transacción
+            conn.commit(); // CONFIRMAR TRANSACCIÓN
 
-            Alertas.mostrarInformacion("Check-out Finalizado", "Check-out completado. Se generó un cobro adicional de: " + penalizacionTotal);
+            Alertas.mostrarInformacion("Check-out Finalizado",
+                    String.format("Check-out completado. Se saldó la cuenta cobrando: %.2f.", totalACobrar));
             limpiarDetalles();
 
         } catch (SQLException e) {
             Alertas.mostrarError("Error de Transacción", "Fallo al finalizar el Check-out. Se realizó ROLLBACK.");
             e.printStackTrace();
-            // Implementar Rollback si el DAO usa la misma conexión
-
         }
     }
-
     // Método para manejar devoluciones/cancelaciones (REQUISITO: Si cliente no llega, devolver parte)
     @FXML
     private void handleGestionPagos() {

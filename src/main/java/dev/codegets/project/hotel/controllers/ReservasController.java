@@ -36,6 +36,9 @@ public class ReservasController {
     // Campos de Monto
     @FXML private Label lblMontoCalculado;
 
+    @FXML private Label lblPagoMinimo; // Se necesita en el FXML
+    @FXML private TextField txtMontoPago; // Se necesita en el FXML
+
     private final HabitacionDao habitacionDao = new HabitacionDao();
     private final ReservaDao reservaDao = new ReservaDao();
     private final ClienteDao clienteDao = new ClienteDao();
@@ -118,22 +121,23 @@ public class ReservasController {
         lblMontoCalculado.setText(String.format("%.2f", monto));
     }
 
+    // src/controllers/ReservasController.java
+
     @FXML
     private void handleCrearReserva() {
         String nombre = txtNombreCliente.getText() != null ? txtNombreCliente.getText().trim() : "";
         String telefono = txtTelefonoCliente.getText() != null ? txtTelefonoCliente.getText().replaceAll("\\s+", "") : "";
         String correo = txtCorreoCliente.getText() != null ? txtCorreoCliente.getText().trim() : "";
 
+        // Validación de campos de cliente
         if (nombre.isEmpty() || telefono.isEmpty() || correo.isEmpty()) {
             Alertas.mostrarError("Datos incompletos", "Nombre, teléfono y correo son obligatorios para realizar la reserva.");
             return;
         }
-
         if (!correo.contains("@")) {
             Alertas.mostrarError("Correo inválido", "El correo debe contener el símbolo '@'.");
             return;
         }
-
         if (!telefono.matches("\\d{10}")) {
             Alertas.mostrarError("Teléfono inválido", "El número debe tener exactamente 10 dígitos.");
             return;
@@ -141,9 +145,9 @@ public class ReservasController {
 
         // 1. Obtener datos y calcular monto final
         Habitacion habitacion = cmbHabitacion.getValue();
-        double montoTotal;
+        double montoTotalConDescuento;
         try {
-            montoTotal = Double.parseDouble(lblMontoCalculado.getText().replace(",", "."));
+            montoTotalConDescuento = Double.parseDouble(lblMontoCalculado.getText().replace(",", "."));
         } catch (NumberFormatException e) {
             Alertas.mostrarError("Error", "Monto no calculado correctamente.");
             return;
@@ -153,8 +157,7 @@ public class ReservasController {
         LocalDateTime fechaFin = dpFechaFin.getValue().atTime(CalculoReserva.getHoraEstandar("HORA_CHECKOUT"));
 
         // 2. Buscar o crear Cliente
-        Optional<Cliente> clienteOpt = clienteDao.findOrCreate(
-                nombre, telefono, correo);
+        Optional<Cliente> clienteOpt = clienteDao.findOrCreate(nombre, telefono, correo);
 
         if (clienteOpt.isEmpty()) {
             Alertas.mostrarError("Error", "No se pudo registrar el cliente.");
@@ -162,31 +165,70 @@ public class ReservasController {
         }
         Cliente cliente = clienteOpt.get();
 
+        // ====================================================
+        // LÓGICA DE PAGO MANUAL Y VALIDACIÓN (70% vs 100%)
+        // ====================================================
+        double pagoRealizado;
+
+        try {
+            // Se asume que txtMontoPago es un campo válido del FXML
+            pagoRealizado = Double.parseDouble(txtMontoPago.getText().trim());
+        } catch (NumberFormatException e) {
+            Alertas.mostrarError("Error de Pago", "Monto de pago inválido. Por favor, ingrese un valor numérico (ej: 0.00).");
+            return;
+        }
+
+        // --- CÁLCULO DE REQUERIMIENTOS ---
+
+        // 1. Obtener el monto base (SIN NINGÚN DESCUENTO) para calcular el 70%
+        double precioBaseTotalSinDescuento = CalculoReserva.calcularMontoTotal(habitacion, fechaInicio, fechaFin, false);
+        long diasEstancia = ChronoUnit.DAYS.between(fechaInicio.toLocalDate(), fechaFin.toLocalDate());
+        if (diasEstancia == 0) diasEstancia = 1;
+
+        double montoMinimo70 = precioBaseTotalSinDescuento * 0.70;
+
+        // --- VALIDACIÓN ---
+
+        if (chkPagaTotal.isSelected()) {
+            // Caso 1: Descuento Aplicado (Requiere 100% del monto total con descuento)
+            if (pagoRealizado < montoTotalConDescuento) {
+                Alertas.mostrarError("Pago Insuficiente", "Para aplicar el descuento, el pago debe ser el monto total final: " + String.format("%.2f", montoTotalConDescuento));
+                return;
+            }
+        } else {
+            // Caso 2: Pago Parcial (Mínimo 70% del precio base)
+            if (pagoRealizado < montoMinimo70) {
+                Alertas.mostrarError("Pago Insuficiente", "El pago mínimo para confirmar la reserva es del 70%: " + String.format("%.2f", montoMinimo70));
+                return;
+            }
+        }
+
+        // Si el código llega aquí, el pago cumple con la regla (70% o 100%).
+
         // 3. Crear Reserva
         Reserva nuevaReserva = new Reserva(cliente.getIdCliente(), habitacion.getIdHabitacion(),
-                fechaInicio, fechaFin, montoTotal);
+                fechaInicio, fechaFin, montoTotalConDescuento);
 
         Optional<Integer> idReservaOpt = reservaDao.create(nuevaReserva);
 
         if (idReservaOpt.isPresent()) {
-            // 4. Registrar Pago si el cliente paga al reservar (REQUISITO: Registrar automáticamente un pago)
-            if (chkPagaTotal.isSelected()) {
-                Pago pagoReserva = new Pago(0, idReservaOpt.get(), montoTotal, "RESERVA", LocalDateTime.now(), "Pago total de la reserva");
+            // 4. Registrar el pago REALIZADO por el gerente (sea 70% o 100%)
+            if (pagoRealizado > 0) {
+                Pago pagoReserva = new Pago(0, idReservaOpt.get(), pagoRealizado, "RESERVA", LocalDateTime.now(), "Pago inicial de la reserva.");
                 pagoDao.create(pagoReserva);
             }
 
+            // 5. Actualizar estado de la habitación
             habitacionDao.updateEstado(habitacion.getIdHabitacion(), "RESERVADA");
 
 
-            Alertas.mostrarInformacion("Reserva Creada", "Reserva #" + idReservaOpt.get() + " creada con éxito. Monto total: " + montoTotal);
-            // Limpiar campos...
+            Alertas.mostrarInformacion("Reserva Creada", "Reserva #" + idReservaOpt.get() + " creada con éxito. Monto total: " + String.format("%.2f", montoTotalConDescuento));
             limpiarCampos();
 
         } else {
             Alertas.mostrarError("Error", "Fallo al crear la reserva en la base de datos.");
         }
     }
-
 
     private void limpiarCampos() {
         // Limpiar campos del Cliente
