@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.ReportesController">
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.codegets.project.hotel.controllers.ReportesController">
     <content>
         <VBox prefHeight="650.0" prefWidth="800.0" spacing="20.0" styleClass="content-area-module">
             <padding>
                 <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
             </padding>
 
-            <Label text="📊 Módulo de Reportes" styleClass="module-title">
+            <Label styleClass="module-title" text="📊 Módulo de Reportes">
                 <font>
                     <Font size="26.0" />
                 </font>
@@ -26,23 +20,22 @@
             <Separator />
 
             <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="card-panel-thin">
-                <Label text="Rango de Fechas:" styleClass="label-bold" />
+                <Label styleClass="label-bold" text="Rango de Fechas:" />
                 <DatePicker fx:id="dpFechaInicio" promptText="Fecha Inicio" styleClass="date-picker-clean" />
-                <Label text="a" styleClass="label-bold" />
+                <Label styleClass="label-bold" text="a" />
                 <DatePicker fx:id="dpFechaFin" promptText="Fecha Fin" styleClass="date-picker-clean" />
 
-                <HBox spacing="10.0" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
-                    <Button fx:id="btnGenerarIngresos" text="Reporte de Ingresos" onAction="#handleGenerarIngresos" styleClass="btn-primary-action" />
-                    <Button fx:id="btnGenerarOcupacion" text="Reporte de Ocupación" onAction="#handleGenerarOcupacion" styleClass="btn-secondary-action" />
+                <HBox alignment="CENTER_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
+                    <Button fx:id="btnGenerarIngresos" onAction="#handleGenerarIngresos" styleClass="btn-primary-action" text="Reporte de Ingresos" />
                 </HBox>
             </HBox>
 
             <Separator />
 
-            <VBox VBox.vgrow="ALWAYS" spacing="10.0">
-                <Label fx:id="lblTituloReporte" text="Resultados del Reporte" styleClass="section-title-md" />
+            <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                <Label fx:id="lblTituloReporte" styleClass="section-title-md" text="Resultados del Reporte" />
 
-                <TextArea fx:id="txtReporteArea" editable="false" prefHeight="450.0" VBox.vgrow="ALWAYS" styleClass="report-text-area" />
+                <TextArea fx:id="txtReporteArea" editable="false" prefHeight="450.0" styleClass="report-text-area" VBox.vgrow="ALWAYS" />
             </VBox>
         </VBox>
     </content>
