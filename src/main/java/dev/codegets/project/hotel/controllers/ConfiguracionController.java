@@ -9,6 +9,8 @@ import dev.codegets.project.hotel.utils.SecurityUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextFormatter;
 import java.util.HashMap;
 import java.util.Optional;
@@ -99,30 +101,92 @@ public class ConfiguracionController {
         String username = txtGerenteUsername.getText();
         String rawPassword = txtGerentePassword.getText();
 
-        if (nombre.isEmpty() || username.isEmpty() || rawPassword.isEmpty()) {
-            Alertas.mostrarError("Error de Campos", "Todos los campos del Gerente son obligatorios.");
+        if (nombre.isEmpty() || username.isEmpty()) {
+            Alertas.mostrarError("Error de Campos", "Nombre y Usuario son obligatorios.");
             return;
         }
 
-        // El requisito es que solo puede existir UN gerente. Si existe, este es un reemplazo/actualización.
-        // Aquí simplificamos, permitiendo la creación/actualización por el ADMIN.
+        boolean existeGerente = usuarioDao.existsGerente();
 
-        // 1. Hashear la contraseña
-        String hashedPassword = SecurityUtils.hashPassword(rawPassword);
-        if (hashedPassword == null) return;
+        if (!existeGerente) {
+            if (rawPassword.isEmpty()) {
+                Alertas.mostrarError("Error de Campos", "Contraseña requerida para crear el Gerente.");
+                return;
+            }
+            String hashed = SecurityUtils.hashPassword(rawPassword);
+            if (hashed == null) return;
+            Usuario nuevo = new Usuario(0, nombre, username, hashed, "GERENTE");
+            if (usuarioDao.create(nuevo)) {
+                Alertas.mostrarInformacion("Éxito", "Gerente '" + username + "' creado correctamente.");
+                txtGerenteNombre.clear();
+                txtGerenteUsername.clear();
+                txtGerentePassword.clear();
+                cargarEstadoInicial();
+            } else {
+                Alertas.mostrarError("Error de BD", "No se pudo crear el Gerente.");
+            }
+            return;
+        }
 
-        // 2. Crear el objeto Usuario (el ID será 0, la DB lo asignará)
-        Usuario nuevoGerente = new Usuario(0, nombre, username, hashedPassword, "GERENTE");
+        Optional<Usuario> actualOpt = usuarioDao.getGerente();
+        if (actualOpt.isEmpty()) {
+            Alertas.mostrarError("Error", "No se pudo obtener el Gerente actual.");
+            return;
+        }
+        Usuario actual = actualOpt.get();
 
-        // 3. Crear en la base de datos
-        if (usuarioDao.create(nuevoGerente)) {
-            Alertas.mostrarInformacion("Éxito", "Gerente '" + username + "' creado/actualizado correctamente.");
+        String hashedToUse;
+        if (rawPassword.isEmpty()) {
+            hashedToUse = actual.getPassword();
+        } else {
+            String hashed = SecurityUtils.hashPassword(rawPassword);
+            if (hashed == null) return;
+            hashedToUse = hashed;
+        }
+
+        Usuario actualizado = new Usuario(actual.getIdUsuario(), nombre, username, hashedToUse, "GERENTE");
+        if (usuarioDao.updateGerente(actualizado)) {
+            Alertas.mostrarInformacion("Éxito", "Gerente actualizado correctamente.");
             txtGerenteNombre.clear();
             txtGerenteUsername.clear();
             txtGerentePassword.clear();
-            cargarEstadoInicial(); // Recargar estado del gerente
+            cargarEstadoInicial();
         } else {
-            Alertas.mostrarError("Error de BD", "No se pudo crear/actualizar el Gerente. El usuario podría ya existir.");
+            Alertas.mostrarError("Error de BD", "No se pudo actualizar el Gerente.");
+        }
+    }
+
+    @FXML
+    private void handleCargarGerente() {
+        java.util.Optional<Usuario> gerenteOpt = usuarioDao.getGerente();
+        if (gerenteOpt.isEmpty()) {
+            Alertas.mostrarError("Error", "No existe un gerente para editar.");
+            return;
+        }
+        Usuario g = gerenteOpt.get();
+        txtGerenteNombre.setText(g.getNombre());
+        txtGerenteUsername.setText(g.getUsername());
+        txtGerentePassword.clear();
+    }
+
+    @FXML
+    private void handleEliminarGerente() {
+        if (!usuarioDao.existsGerente()) {
+            Alertas.mostrarError("Error", "No existe un gerente para eliminar.");
+            return;
+        }
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "¿Eliminar gerente actual?", ButtonType.YES, ButtonType.NO);
+        java.util.Optional<ButtonType> res = confirm.showAndWait();
+        if (res.isPresent() && res.get() == ButtonType.YES) {
+            if (usuarioDao.deleteGerente()) {
+                Alertas.mostrarInformacion("Éxito", "Gerente eliminado.");
+                txtGerenteNombre.clear();
+                txtGerenteUsername.clear();
+                txtGerentePassword.clear();
+                cargarEstadoInicial();
+            } else {
+                Alertas.mostrarError("Error de BD", "No se pudo eliminar el Gerente.");
+            }
         }
     }
 

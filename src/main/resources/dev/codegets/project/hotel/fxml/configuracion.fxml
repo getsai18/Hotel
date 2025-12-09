@@ -39,7 +39,9 @@
                 <Label text="Contraseña (temporal):" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="label-form" />
                 <TextField fx:id="txtGerentePassword" promptText="Contraseña inicial" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="text-field-clean" />
 
-                <Button fx:id="btnGestionGerente" text="Crear/Actualizar Gerente" onAction="#handleGestionGerente" prefWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="btn-accent-action" />
+                <Button fx:id="btnGestionGerente" text="Crear/Actualizar Gerente" onAction="#handleGestionGerente" prefWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="btn-primary-action" />
+                <Button text="Cargar Gerente (Editar)" onAction="#handleCargarGerente" prefWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="5" styleClass="btn-primary-action" />
+                <Button text="Eliminar Gerente" onAction="#handleEliminarGerente" prefWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="6" styleClass="btn-accent-action" />
             </GridPane>
         </VBox>
         <Separator />
