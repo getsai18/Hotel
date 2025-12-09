@@ -9,6 +9,7 @@ import dev.codegets.project.hotel.utils.SecurityUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -36,12 +37,32 @@ public class ConfiguracionController {
 
     @FXML
     public void initialize() {
-        // Inicializar el mapeo de campos de configuración
         paramMap.put("PORCENTAJE_RECARGO_CHECKIN_TARDE", txtRecargoTarde);
-        paramMap.put("PORCENTAJE_PENALIZACION_NO_SHOW", txtPenalizacionNoShow);
+        paramMap.put("PORCENTAJE_PENALIZACION_CANCELACION", txtPenalizacionNoShow);
         paramMap.put("PORCENTAJE_DESCUENTO_ANTICIPADA", txtDescuentoAnticipada);
         paramMap.put("HORA_CHECKIN", txtHoraCheckin);
         paramMap.put("HORA_CHECKOUT", txtHoraCheckout);
+
+        java.util.function.UnaryOperator<TextFormatter.Change> decimalFilter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.isEmpty()) return change;
+            if (newText.matches("\\d*\\.?\\d*")) return change;
+            return null;
+        };
+        java.util.function.UnaryOperator<TextFormatter.Change> hourFilter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.isEmpty()) return change;
+            if (newText.matches("([0-9]{0,2})(\\.[0-9]{0,2})?")) return change;
+            return null;
+        };
+
+        txtRecargoTarde.setTextFormatter(new TextFormatter<>(decimalFilter));
+        txtPenalizacionNoShow.setTextFormatter(new TextFormatter<>(decimalFilter));
+        txtDescuentoAnticipada.setTextFormatter(new TextFormatter<>(decimalFilter));
+        txtPrecioMaster.setTextFormatter(new TextFormatter<>(decimalFilter));
+        txtPrecioEstandar.setTextFormatter(new TextFormatter<>(decimalFilter));
+        txtHoraCheckin.setTextFormatter(new TextFormatter<>(hourFilter));
+        txtHoraCheckout.setTextFormatter(new TextFormatter<>(hourFilter));
 
         cargarEstadoInicial();
     }

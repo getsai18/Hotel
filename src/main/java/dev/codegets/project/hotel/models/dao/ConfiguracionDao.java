@@ -14,11 +14,11 @@ public class ConfiguracionDao {
     public void inicializarParametros() {
         // Parámetros obligatorios según los requisitos:
         String[] params = {
-                "PORCENTAJE_RECARGO_CHECKIN_TARDE", // Porcentaje por llegada después del check-in (ej: 0.05 = 5%)
-                "PORCENTAJE_PENALIZACION_NO_SHOW",    // Porcentaje por no presentarse (ej: 0.50 = 50% de penalización)
-                "PORCENTAJE_DESCUENTO_ANTICIPADA",  // Porcentaje por reserva anticipada (ej: 0.10 = 10% de descuento)
-                "HORA_CHECKIN",                     // Hora estándar de check-in (ej: 15.00 = 3:00 PM)
-                "HORA_CHECKOUT"                     // Hora estándar de check-out (ej: 15.00 = 3:00 PM del día siguiente)
+                "PORCENTAJE_RECARGO_CHECKIN_TARDE",
+                "PORCENTAJE_PENALIZACION_CANCELACION",
+                "PORCENTAJE_DESCUENTO_ANTICIPADA",
+                "HORA_CHECKIN",
+                "HORA_CHECKOUT"
         };
 
         // Valores iniciales (se podrán cambiar en Fase 4 por el Admin)

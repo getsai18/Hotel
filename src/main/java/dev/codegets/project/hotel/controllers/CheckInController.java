@@ -91,7 +91,7 @@ public class CheckInController {
         }
 
         recargoPorTarde = CalculoReserva.calcularRecargoCheckInTarde(
-                fechaReserva, horaLlegada, habitacion.getPrecioBase()
+                fechaReserva, horaLlegada, reservaActual.getMontoTotal()
         );
 
         String detalles = String.format(

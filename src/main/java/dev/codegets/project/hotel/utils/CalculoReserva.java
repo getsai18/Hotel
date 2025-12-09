@@ -48,7 +48,7 @@ public class CalculoReserva {
     }
 
 
-    public static double calcularRecargoCheckInTarde(LocalDate fechaReserva, LocalTime horaLlegada, double montoBasePorNoche) {
+    public static double calcularRecargoCheckInTarde(LocalDate fechaReserva, LocalTime horaLlegada, double montoTotalReserva) {
         Optional<Configuracion> horaConfig = configDao.getParametro("HORA_CHECKIN");
         Optional<Configuracion> recargoConfig = configDao.getParametro("PORCENTAJE_RECARGO_CHECKIN_TARDE");
 
@@ -70,8 +70,7 @@ public class CalculoReserva {
 
             // Aplica recargo solo si es el día correcto Y la hora es posterior a la estándar (15:00).
             if (horaLlegada.isAfter(horaEstandar)) {
-                // El recargo se aplica sobre el precio base de la noche
-                return montoBasePorNoche * recargoConfig.get().getValor();
+                return montoTotalReserva * recargoConfig.get().getValor();
             }
         }
 

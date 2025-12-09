@@ -243,7 +243,10 @@ public class CheckOutController {
                 double montoPagado = reserva.getMontoTotal();
 
                 // 3. Obtener el Porcentaje de Penalización por No-Show
-                Optional<Configuracion> noShowConfig = configDao.getParametro("PORCENTAJE_PENALIZACION_NO_SHOW");
+                Optional<Configuracion> noShowConfig = configDao.getParametro("PORCENTAJE_PENALIZACION_CANCELACION");
+                if (noShowConfig.isEmpty()) {
+                    noShowConfig = configDao.getParametro("PORCENTAJE_PENALIZACION_NO_SHOW");
+                }
                 double porcentajePenalizacion = noShowConfig.map(Configuracion::getValor).orElse(0.0);
 
                 if (porcentajePenalizacion == 0.0) {

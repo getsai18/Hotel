@@ -52,8 +52,15 @@ public class ReservasController {
         cmbHabitacion.setConverter(new HabitacionStringConverter(todasLasHabitaciones)); // Necesitas un StringConverter
         cmbHabitacion.getItems().setAll(todasLasHabitaciones);
 
-        // Listener para recalcular al cambiar fechas o checkbox
-        dpFechaInicio.valueProperty().addListener((obs, oldV, newV) -> calcularMonto());
+        // Listener para recalcular y ajustar fecha de salida mínima (día siguiente)
+        dpFechaInicio.valueProperty().addListener((obs, oldV, newV) -> {
+            if (newV != null) {
+                if (dpFechaFin.getValue() == null || !dpFechaFin.getValue().isAfter(newV)) {
+                    dpFechaFin.setValue(newV.plusDays(1));
+                }
+            }
+            calcularMonto();
+        });
         dpFechaFin.valueProperty().addListener((obs, oldV, newV) -> calcularMonto());
         cmbHabitacion.valueProperty().addListener((obs, oldV, newV) -> calcularMonto());
         chkPagaTotal.selectedProperty().addListener((obs, oldV, newV) -> calcularMonto());
@@ -79,7 +86,7 @@ public class ReservasController {
                     public void updateItem(LocalDate item, boolean empty) {
                         super.updateItem(item, empty);
                         LocalDate min = dpFechaInicio.getValue() != null ? dpFechaInicio.getValue() : LocalDate.now();
-                        setDisable(empty || item.isBefore(min));
+                        setDisable(empty || !item.isAfter(min));
                     }
                 };
             }
